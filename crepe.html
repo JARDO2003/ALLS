@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passez vos commandes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-image: url('image/logo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+        
+        h1 {
+            color: #fcfcfc;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        
+        p {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+        
+        .menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .menu-item {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 220px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-item p {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 15px 0;
+            background: none;
+            text-shadow: none;
+            display: block;
+            padding: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #d35400, #e67e22);
+            color: white;
+            padding: 12px 15px;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #e67e22, #f39c12);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .feedback {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #2ecc71, #3ee483);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 28px;
+                padding: 8px 16px;
+            }
+            
+            .menu {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .menu-item {
+                width: 85%;
+                max-width: 300px;
+            }
+            
+            .btn {
+                padding: 14px 15px;
+                font-size: 16px;
+            }
+            
+            .feedback {
+                padding: 15px;
+                margin-top: 30px;
+            }
+            
+            input[type="text"] {
+                width: 90%;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                padding: 8px 12px;
+            }
+            
+            .menu-item {
+                width: 95%;
+            }
+            
+            input[type="text"] {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        function envoyerAvis() {
+            let avis = document.getElementById('avis').value;
+            if (avis.trim() !== "") {
+                let numeroFournisseur = "2250172369840"; // Remplace par le vrai numéro
+                let message = encodeURIComponent("Bonjour, voici mon avis : " + avis);
+                let url = `https://wa.me/${numeroFournisseur}?text=${message}`;
+                window.open(url, '_blank');
+            } else {
+                alert("Veuillez écrire un avis avant d'envoyer.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Passez votre commande</h1>
+    <p>NOS CREPES</p>
+    
+    <div class="menu">
+        <div class="menu-item">
+            <img src="image/crepe.jpg" alt="CREPE">
+            <p>500 FCFA</p>
+            <a href="https://wa.me/2250172369840?text=Salut%2C%20je%20souhaite commander CREPE simple pour 500FCFA." class="btn">Commander</a>
+        </div>
+        <div class="menu-item">
+            <img src="image/crepe au ch.jpg" alt="CREPE">
+            <p>Plat de 500 FCFA</p>
+            <a href="https://wa.me/225017369840?text=Salut%2C%20je%20souhaite commander CREPE au chocolat pour 500FCFA." class="btn">Commander</a>
+        </div>
+    </div>
+    
+    <div class="feedback">
+        <h2>Votre avis nous intéresse</h2>
+        <input type="text" id="avis" placeholder="Partagez votre expérience...">
+        <button onclick="envoyerAvis()">Envoyer</button>
+    </div>
+</body>
+</html>
