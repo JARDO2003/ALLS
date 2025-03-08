@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AERO SERVICES - Réservation de Vols</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('image/logo.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .logo {
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+        
+        .header-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .booking-period {
+            background-color: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+        }
+        
+        .flight-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flight-table th {
+            background-color: #1a5276;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .flight-table th:first-child {
+            border-top-left-radius: 5px;
+        }
+        
+        .flight-table th:last-child {
+            border-top-right-radius: 5px;
+        }
+        
+        .flight-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background-color: #fffde7;
+        }
+        
+        .flight-table tr:hover td {
+            background-color: #f5f5f5;
+        }
+        
+        .destination-col {
+            font-weight: bold;
+            background-color: #ffd54f !important;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        
+        .airline {
+            font-size: 14px;
+            color: #333;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .command-btn {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: block;
+            margin: 5px auto 0;
+        }
+        
+        .command-btn:hover {
+            background-color: #1b5e20;
+            transform: scale(1.05);
+        }
+        
+        .partners {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        
+        .partner-logo {
+            height: 40px;
+            object-fit: contain;
+            filter: grayscale(30%);
+            transition: all 0.3s;
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+        
+        .note {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        .booking-form {
+            display: none;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-form h3 {
+            margin-top: 0;
+            color: #1a5276;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .submit-btn {
+            background-color: #1a5276;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-top: 20px;
+            border-bottom: 2px solid #1a5276;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        
+        .tab.active {
+            background-color: #1a5276;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            .flight-table th, .flight-table td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            
+            .partner-logo {
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FAITE VOS RESERVATION SUR ALLS</h1>
+            <div class="header-text">Agence de voyage, de tourisme et de l'Aéro Formation</div>
+            <div class="booking-period">Du 15 novembre au 30 novembre 2024</div>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('afrique')">Destinations Afrique</div>
+            <div class="tab" onclick="showTab('international')">Destinations Internationales</div>
+        </div>
+        
+        <div id="afrique" class="tab-content active">
+            <table class="flight-table">
+                <thead>
+                    <tr>
+                        <th>DESTINATION</th>
+                        <th>ALLER SIMPLE</th>
+                        <th>ALLER RETOUR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="destination-col">COTONOU - DAKAR</td>
+                        <td>
+                            <span class="price">191.800 FCFA</span>
+                            <span class="airline">AIR SENEGAL</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - DAKAR', 'AIR SENEGAL', 'Aller Simple', '191.800 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">352.900 FCFA</span>
+                            <span class="airline">AIR SENEGAL</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - DAKAR', 'AIR SENEGAL', 'Aller Retour', '352.900 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - ABIDJAN</td>
+                        <td>
+                            <span class="price">189.100 FCFA</span>
+                            <span class="airline">AIR PEACE</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - ABIDJAN', 'AIR PEACE', 'Aller Simple', '189.100 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">351.200 FCFA</span>
+                            <span class="airline">AIR COTE D'IVOIRE</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - ABIDJAN', 'AIR COTE D\'IVOIRE', 'Aller Retour', '351.200 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - KINSHASSA</td>
+                        <td>
+                            <span class="price">286.600 FCFA</span>
+                            <span class="airline">AIR COTE D'IVOIRE</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - KINSHASSA', 'AIR COTE D\'IVOIRE', 'Aller Simple', '286.600 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">418.100 FCFA</span>
+                            <span class="airline">AIR COTE D'IVOIRE</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - KINSHASSA', 'AIR COTE D\'IVOIRE', 'Aller Retour', '418.100 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - DOUALA</td>
+                        <td>
+                            <span class="price">153.200 FCFA</span>
+                            <span class="airline">CAMAIR-CO</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - DOUALA', 'CAMAIR-CO', 'Aller Simple', '153.200 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">267.500 FCFA</span>
+                            <span class="airline">CAMAIR-CO</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - DOUALA', 'CAMAIR-CO', 'Aller Retour', '267.500 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - OUAGADOUGOU</td>
+                        <td>
+                            <span class="price">249.000 FCFA</span>
+                            <span class="airline">AIR BURKINA</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - OUAGADOUGOU', 'AIR BURKINA', 'Aller Simple', '249.000 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">434.200 FCFA</span>
+                            <span class="airline">AIR COTE D'IVOIRE</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - OUAGADOUGOU', 'AIR COTE D\'IVOIRE', 'Aller Retour', '434.200 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - JOHANNESBURG</td>
+                        <td>
+                            <span class="price">238.400 FCFA</span>
+                            <span class="airline">AIR COTE D'IVOIRE</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - JOHANNESBURG', 'AIR COTE D\'IVOIRE', 'Aller Simple', '238.400 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">423.200 FCFA</span>
+                            <span class="airline">RWANDAIR</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - JOHANNESBURG', 'RWANDAIR', 'Aller Retour', '423.200 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="international" class="tab-content">
+            <table class="flight-table">
+                <thead>
+                    <tr>
+                        <th>DESTINATION</th>
+                        <th>ALLER SIMPLE</th>
+                        <th>ALLER RETOUR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="destination-col">COTONOU - LONDRES</td>
+                        <td>
+                            <span class="price">280.800 FCFA</span>
+                            <span class="airline">ETHIOPIAN AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - LONDRES', 'ETHIOPIAN AIRLINES', 'Aller Simple', '280.800 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">409.700 FCFA</span>
+                            <span class="airline">BRUSSELS AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - LONDRES', 'BRUSSELS AIRLINES', 'Aller Retour', '409.700 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - KOWEÏT</td>
+                        <td>
+                            <span class="price">417.200 FCFA</span>
+                            <span class="airline">ETHIOPIAN AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - KOWEÏT', 'ETHIOPIAN AIRLINES', 'Aller Simple', '417.200 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">688.000 FCFA</span>
+                            <span class="airline">TURKISH AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - KOWEÏT', 'TURKISH AIRLINES', 'Aller Retour', '688.000 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - PARIS</td>
+                        <td>
+                            <span class="price">261.000 FCFA</span>
+                            <span class="airline">RWANDAIR</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - PARIS', 'RWANDAIR', 'Aller Simple', '261.000 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">389.300 FCFA</span>
+                            <span class="airline">TURKISH AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - PARIS', 'TURKISH AIRLINES', 'Aller Retour', '389.300 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - DUBAI</td>
+                        <td>
+                            <span class="price">339.100 FCFA</span>
+                            <span class="airline">ROYAL AIR MAROC</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - DUBAI', 'ROYAL AIR MAROC', 'Aller Simple', '339.100 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">446.700 FCFA</span>
+                            <span class="airline">TURKISH AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - DUBAI', 'TURKISH AIRLINES', 'Aller Retour', '446.700 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - ROME</td>
+                        <td>
+                            <span class="price">289.800 FCFA</span>
+                            <span class="airline">ETHIOPIAN AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - ROME', 'ETHIOPIAN AIRLINES', 'Aller Simple', '289.800 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">387.900 FCFA</span>
+                            <span class="airline">TURKISH AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - ROME', 'TURKISH AIRLINES', 'Aller Retour', '387.900 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="destination-col">COTONOU - MONTRÉAL</td>
+                        <td>
+                            <span class="price">570.200 FCFA</span>
+                            <span class="airline">TURKISH AIRLINES</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - MONTRÉAL', 'TURKISH AIRLINES', 'Aller Simple', '570.200 FCFA')">Commander</button>
+                        </td>
+                        <td>
+                            <span class="price">833.300 FCFA</span>
+                            <span class="airline">ROYAL AIR MAROC</span>
+                            <button class="command-btn" onclick="showBookingForm('COTONOU - MONTRÉAL', 'ROYAL AIR MAROC', 'Aller Retour', '833.300 FCFA')">Commander</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="bookingForm" class="booking-form">
+            <h3>Réservation de Vol</h3>
+            <form id="flightBookingForm">
+                <input type="hidden" id="destination" name="destination">
+                <input type="hidden" id="airline" name="airline">
+                <input type="hidden" id="tripType" name="tripType">
+                <input type="hidden" id="price" name="price">
+                
+                <div class="form-group">
+                    <label for="fullName">Nom Complet:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Téléphone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="departureDate">Date de Départ:</label>
+                    <input type="date" id="departureDate" name="departureDate" required>
+                </div>
+                
+                <div class="form-group" id="returnDateGroup">
+                    <label for="returnDate">Date de Retour:</label>
+                    <input type="date" id="returnDate" name="returnDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="passengers">Nombre de Passagers:</label>
+                    <input type="number" id="passengers" name="passengers" min="1" value="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="specialRequests">Demandes Spéciales:</label>
+                    <input type="text" id="specialRequests" name="specialRequests">
+                </div>
+                
+                <button type="submit" class="submit-btn">Confirmer la Réservation</button>
+            </form>
+        </div>
+        
+        <div class="note">
+            NB: TARIF SUSCEPTIBLE DE MODIFICATION SELON VOS DATES
+        </div>
+        
+        <div class="partners">
+            <img src="/api/placeholder/80/40" alt="Air Côte d'Ivoire" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="RwandAir" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="ASKY" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="Turkish Airlines" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="Ethiopian Airlines" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="Royal Air Maroc" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="Air France" class="partner-logo">
+            <img src="/api/placeholder/80/40" alt="Brussels Airlines" class="partner-logo">
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+        
+        function showBookingForm(destination, airline, tripType, price) {
+            // Set hidden form values
+            document.getElementById('destination').value = destination;
+            document.getElementById('airline').value = airline;
+            document.getElementById('tripType').value = tripType;
+            document.getElementById('price').value = price;
+            
+            // Show/hide return date field based on trip type
+            const returnDateGroup = document.getElementById('returnDateGroup');
+            if (tripType === 'Aller Simple') {
+                returnDateGroup.style.display = 'none';
+                document.getElementById('returnDate').removeAttribute('required');
+            } else {
+                returnDateGroup.style.display = 'block';
+                document.getElementById('returnDate').setAttribute('required', 'required');
+            }
+            
+            // Show the booking form
+            document.getElementById('bookingForm').style.display = 'block';
+            
+            // Scroll to the form
+            document.getElementById('bookingForm').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        
+        // Handle form submission
+        document.getElementById('flightBookingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            
+            // Send data to WhatsApp
+            sendToSupplier(formObject);
+        });
+        
+        function sendToSupplier(bookingData) {
+            // Calculer le prix total
+            const totalPrice = parseFloat(bookingData.price.replace(/[^\d.]/g, '')) * 
+                             parseInt(bookingData.passengers);
+            
+            // Créer le message formaté pour WhatsApp
+            const message = encodeURIComponent(`*NOUVELLE RÉSERVATION DE VOL*\n\n` +
+                `*Destination:* ${bookingData.destination}\n` +
+                `*Compagnie:* ${bookingData.airline}\n` +
+                `*Type de voyage:* ${bookingData.tripType}\n` +
+                `*Prix unitaire:* ${bookingData.price}\n` +
+                `*Nombre de passagers:* ${bookingData.passengers}\n` +
+                `*Prix total:* ${totalPrice.toLocaleString()} FCFA\n` +
+                `*Date de départ:* ${bookingData.departureDate}\n` +
+                `${bookingData.returnDate ? '*Date de retour:* ' + bookingData.returnDate + '\n' : ''}` +
+                `\n*Informations client:*\n` +
+                `*Nom:* ${bookingData.fullName}\n` +
+                `*Email:* ${bookingData.email}\n` +
+                `*Téléphone:* ${bookingData.phone}\n` +
+                `${bookingData.specialRequests ? '*Demandes spéciales:* ' + bookingData.specialRequests : ''}`);
+            
+            // Numéro de téléphone du fournisseur - Remplacez par le numéro réel
+            const phoneNumber = "2250172369840"; // Format international sans + ni espaces
+            
+            // Créer l'URL WhatsApp avec le message
+            const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+            
+            // Ouvrir WhatsApp dans un nouvel onglet
+            window.open(whatsappURL, '_blank');
+            
+            // Réinitialiser et masquer le formulaire
+            document.getElementById('flightBookingForm').reset();
+            document.getElementById('bookingForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
