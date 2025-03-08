@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resto Virgie - Mets Ivoiriens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('image/logo.jpg'); /* Remplace par une vraie image de fond */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #be09fa;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .menu-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(239, 8, 8, 0.1);
+            width: 200px;
+            text-align: center;
+        }
+        .menu-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #d35400;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #e67e22;
+        }
+        .feedback {
+            margin-top: 30px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+        @media (max-width: 768px) {
+            .menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            .menu-item {
+                width: 90%;
+            }
+        }
+    </style>
+    <script>
+        function envoyerAvis() {
+            let avis = document.getElementById('avis').value;
+            if (avis.trim() !== "") { 
+                let numeroFournisseur = "22955177480"; // Remplace par le vrai numéro
+                let message = encodeURIComponent("Bonjour, voici mon avis : " + avis);
+                let url = https://wa.me/${numeroFournisseur}?text=${message};
+                window.open(url, '_blank');
+            } else {
+                alert("Veuillez écrire un avis avant d'envoyer.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Resto Virgie</h1>
+    <p>Bienvenue chez nous ! Passez vos commandes en toute confiance.</p>
+    <h2>Nos menus</h2>
+    <div class="menu">
+        <div class="menu-item">
+            <img src="image/poison1.jpg" alt="Attiéké">
+            <p>Poisson braisé </p>
+            <a href="poisson.html" class="btn">Commander</a>
+        </div>
+        <div class="menu-item">
+            <img src="image/aloko.jpg" alt="Aloko">
+            <p>Aloko</p>
+            <a href="commande_aloko.html" class="btn">Commander</a>
+
+        </div>
+        <div class="menu-item">
+            <img src="image/soup de poisson.jpg" alt="Soupe">
+            <p>Soupe de poisson - 3 000 FCFA</p>
+            <a href="https://wa.me/22955177480?text=Bonjour%2C%20je%20souhaite%20commander%20Soupe de poisson%20pour%203000%20FCFA." class="btn">Commander</a>
+            
+        </div>
+
+        <div class="menu-item">
+            <img src="image/soupe poule.jpg" alt="Soupe">
+            <p>Soupe de poulet - 3 000 FCFA</p>
+            <a href="https://wa.me/22955177480?text=Bonjour%2C%20je%20souhaite%20commander%20Soupe de viande%20pour%203000%20FCFA." class="btn">Commander</a>
+        </div>
+        <div class="menu-item">
+            <img src="image/frit.jpg" alt="Frite">
+            <p>Frites</p>
+            <a href="frit.html" class="btn">Commander</a>
+        </div>
+        <div class="menu-item">
+            <img src="image/poulet.jpg" alt="Poulet">
+            <p>Poulet</p>
+            <a href="poulet.html" class="btn">Commander</a>
+            
+        </div>
+    </div>
+    <div class="feedback">
+        <h2>Passez votre commande personnel</h2>
+        <input type="text" id="avis" placeholder="Écrivez ici...">
+        <button onclick="envoyerAvis()">Envoyer</button>
+    </div>
+</body>
+</html>

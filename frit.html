@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passez vos commandes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('image/frit.jpg'); /* Remplace par une vraie image de fond */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #fcfcfc;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .menu-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(238, 237, 240, 0.05);
+            width: 200px;
+            text-align: center;
+        }
+        .menu-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #d35400;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #f3f0f0;
+        }
+        .feedback {
+            margin-top: 30px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+        @media (max-width: 768px) {
+            .menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            .menu-item {
+                width: 90%;
+            }
+        }
+    </style>
+    <script>
+        function envoyerAvis() {
+            let avis = document.getElementById('avis').value;
+            if (avis.trim() !== "") {
+                let numeroFournisseur = "22955177480"; // Remplace par le vrai numéro
+                let message = encodeURIComponent("Bonjour, voici mon avis : " + avis);
+                let url = https://wa.me/${numeroFournisseur}?text=${message};
+                window.open(url, '_blank');
+            } else {
+                alert("Veuillez écrire un avis avant d'envoyer.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Passez votre commande</h1>
+    <p>Aloko </p>
+    
+    <div class="menu">
+        <div class="menu-item">
+            <img src="image/frit.jpg" alt="Attiéké">
+            <p>Plat de 500 FCFA</p>
+            <a href="https://wa.me/22955177480?text=Bonjour%2C%20je%20souhaite%20commander%20frites%20pour 500FCFA." class="btn">Commander</a>
+        </div>
+        <div class="menu-item">
+            <img src="image/frit.jpg" alt="Aloko">
+            <p>Plat de 1000 FCFA</p>
+            <a href="https://wa.me/22955177480?text=Bonjour%2C%20je%20souhaite%20commander%20frites%20pour 1000FCFA." class="btn">Commander</a>
+        </div>
+</div>
+   
+
+
+
+
+
+
+
+
+
+
+
+<div class="feedback">
+        <h2>Donnez votre avis</h2>
+        <input type="text" id="avis" placeholder="Écrivez votre avis ici...">
+        <button onclick="envoyerAvis()">Envoyer</button>
+    </div>
+</body>
+</html>

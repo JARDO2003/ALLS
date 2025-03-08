@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique en Ligne</title>
+    <style>
+        body {
+            background-image: url('image/boub.jpg'); /* Remplace par le chemin de ton image */
+            background-size: cover; /* Ajuste l'image pour couvrir toute la page */
+            background-position: center; /* Centre l'image */
+            background-attachment: fixed; /* Fixe l'image lors du défilement */
+            font-family: Arial, sans-serif;
+            color: rgb(227, 213, 213);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        /* Responsive Design pour petits écrans */
+        @media (max-width: 600px) {
+            .articles {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .article {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Responsive Design pour tablettes Android */
+        @media (min-width: 601px) and (max-width: 900px) {
+            .articles {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .article {
+                width: 45%;
+            }
+        }
+        
+        .header {
+            font-size: 36px; /* Texte plus gros */
+            font-weight: bold;
+            margin-bottom: 30px;
+            background-color: rgba(51, 51, 51, 0.9); /* Fond de l'en-tête semi-transparent */
+            color: white; /* Texte en blanc */
+            padding: 20px; /* Espacement interne */
+            text-align: center; /* Centrage du texte */
+            border-radius: 15px; /* Coins arrondis */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre portée */
+            text-transform: uppercase; /* Majuscules */
+            letter-spacing: 2px; /* Espacement des lettres */
+        }
+        
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .articles { 
+            width: 90%; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .article { 
+            width: 280px; 
+            border: 1px solid #030303; 
+            padding: 15px; 
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .article img { 
+            width: 200px; 
+            height: 200px; 
+            display: block; 
+            margin: 0 auto 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .article img:hover {
+            transform: scale(1.05);
+        }
+        
+        .article p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .article button {
+            background-color: #f10e0e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .article button:hover {
+            background-color: #d60a0a;
+        }
+        
+        .panier { 
+            width: 80%; 
+            padding: 25px; 
+            border: 2px solid #f10e0e; 
+            background-color: rgba(8, 7, 7, 0.9);
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .panier h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #f10e0e;
+        }
+        
+        .panier ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .panier li {
+            padding: 10px;
+            border-bottom: 1px dashed #555;
+        }
+        
+        .panier p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .panier button {
+            background-color: #f10e0e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .panier button:hover {
+            background-color: #d60a0a;
+            transform: scale(1.05);
+        }
+        
+        .retour { 
+            margin-top: 30px; 
+            display: inline-block; 
+            padding: 12px 20px; 
+            border: 1px solid #f0eeee; 
+            text-decoration: none;
+            color: rgb(227, 213, 213);
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .retour:hover {
+            background-color: rgba(240, 238, 238, 0.2);
+            color: white;
+        }
+        
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.9); 
+            justify-content: center; 
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal img { 
+            max-width: 90%; 
+            max-height: 90%;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal.active { 
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Bienvenue dans ma garde ROBE </div>
+    <div class="container">
+        <div class="articles">
+            <div class="article" data-nom="ROBE L1" data-prix="12000">
+                <img src="image/r1.jpg" alt="ROBE L1" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L1</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L2" data-prix="12000">
+                <img src="image/R2.jpg" alt="ROBE L2" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L2</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L3" data-prix="11000">
+                <img src="image/R3.jpg" alt="ROBE L3" onclick="agrandirImage(this)">
+                <p>Robe 11000 FCFA L3</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L4" data-prix="12000">
+                <img src="image/R4.jpg" alt="ROBE L4" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L4</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L5" data-prix="12000">
+                <img src="image/R5.jpg" alt="ROBE L5" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L5</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L6" data-prix="12000">
+                <img src="image/R6.jpg" alt="ROBE L6" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L5</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L7" data-prix="12000">
+                <img src="image/R7.jpg" alt="ROBE L7" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L5</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L8" data-prix="12000">
+                <img src="image/R8.jpg" alt="ROBE L8" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA L5</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="ROBE L9" data-prix="12000">
+                <img src="image/R9.jpg" alt="ROBE L9" onclick="agrandirImage(this)">
+                <p>Robe 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+        </div>
+        <div class="panier">
+            <h2>Mon Panier 😊</h2>
+            <ul id="liste-panier"></ul>
+            <p>Total: <span id="total">0</span> FCFA</p>
+            <button onclick="passerCommande()">Passer la commande</button>
+        </div>
+    </div>
+    <a href="index.html" class="retour">Retour à la page d'accueil ⬅</a>
+
+    
+    <div class="modal" id="modal" onclick="fermerModal()">
+        <img id="modal-img" src="" alt="Image agrandie">
+    </div>
+    
+    <script>
+        let panier = []; // Pour stocker les articles du panier
+        let total = 0;
+        
+        function ajouterAuPanier(button) {
+            let article = button.parentElement;
+            let nom = article.getAttribute("data-nom");
+            let prix = parseFloat(article.getAttribute("data-prix"));
+            
+            // Ajouter l'article au tableau panier
+            panier.push({nom: nom, prix: prix});
+            
+            let listePanier = document.getElementById("liste-panier");
+            let nouvelElement = document.createElement("li");
+            nouvelElement.textContent = `${nom} - ${prix} FCFA`;
+            listePanier.appendChild(nouvelElement);
+            
+            total += prix;
+            document.getElementById("total").textContent = total;
+        }
+        
+        function passerCommande() {
+            // Numéro de téléphone WhatsApp (à remplacer par votre numéro)
+            const numeroWhatsApp = "22955177480"; // Remplacez par votre numéro avec l'indicatif du pays
+            
+            // Création du message détaillant la commande
+            let messageCommande = "Bonjour, je souhaite commander les articles suivants :\n\n";
+            
+            panier.forEach((article, index) => {
+                messageCommande += `${index + 1}. ${article.nom} - ${article.prix} FCFA\n`;
+            });
+            
+            messageCommande += `\nTotal: ${total} FCFA\n\nMa localisation est : [Veuillez indiquer votre adresse ici]`;
+            
+            // Encodage du message pour l'URL
+            const messageEncode = encodeURIComponent(messageCommande);
+            
+            // Construction de l'URL WhatsApp
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${messageEncode}`;
+            
+            // Redirection vers WhatsApp
+            window.open(urlWhatsApp, '_blank');
+        }
+        
+        function agrandirImage(img) {
+            document.getElementById("modal-img").src = img.src;
+            document.getElementById("modal").classList.add("active");
+        }
+        
+        function fermerModal() {
+            document.getElementById("modal").classList.remove("active");
+        }
+    </script>
+</body>
+</html>

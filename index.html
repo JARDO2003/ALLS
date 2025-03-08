@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alls Store</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-image: url('image/logo.jpg'); /* Remplace par le chemin de ton image */
+            background-size: cover; /* Ajuste l'image pour couvrir toute la page */
+            background-position: center; /* Centre l'image */
+            background-attachment: fixed; /* Fixe l'image lors du défilement */
+            font-family: Arial, sans-serif;
+            color: rgb(251, 22, 22);
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            background: rgba(78, 3, 3, 0.6); /* Fond semi-transparent */
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        .header {
+    font-size: 36px; /* Texte plus gros */
+    font-weight: bold;
+    margin-bottom: 10px;
+    background-color: #333; /* Fond de l'en-tête */
+    color: white; /* Texte en blanc */
+    padding: 15px; /* Espacement interne */
+    text-align: center; /* Centrage du texte */
+    border-radius: 10px; /* Coins arrondis */
+}
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .box {
+            border: 3px solid black;
+            padding: 15px;
+            margin: 15px 0;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            color: white; /* Couleur du texte pour être visible sur le fond */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        /* Fond d'écran pour chaque cadre */
+        .store {
+            background-image: url('image/maillots.jpg'); /* Image de fond pour Check Store */
+        }
+        .food {
+            background-image: url('image/logo.jpg'); /* Image de fond pour Les crêpes des ADJA ET AWA */
+        }
+        .slider-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8); /* Fond semi-transparent pour mieux voir le texte */
+            border-radius: 10px;
+        }
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+        .slider {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease-in-out;
+        }
+        .card {
+            background: white;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: 150px;
+            padding: 10px;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+        .card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        .card button {
+            background-color: blue;
+            color: white;
+            padding: 8px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+        .input-box {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        input {
+            padding: 8px;
+            width: 200px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+        .send-btn {
+            background: blue;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-left: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Bienvenue sur Alls</div>
+
+    <div class="container">
+
+        <div class="box store">
+            <h2>Check Store</h1></h2>
+            <div class="slider-container" id="products">
+                <div class="slider">
+                    <div class="card"><img src="image/chaussure.jpg" alt="Chaussures"><h3>Chaussures</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/chemise.jpg" alt="Habits"><h3>Habits</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/montres.jpg" alt="Montres"><h3>Montres</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/maillots.jpg" alt="Maillots"><h3>Maillots</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/chaussure.jpg" alt="Chaussures"><h3>Chaussures</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/chemise.jpg" alt="Habits"><h3>Habits</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/montres.jpg" alt="Montres"><h3>Montres</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/maillots.jpg" alt="Maillots"><h3>Maillots</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/chaussure.jpg" alt="Chaussures"><h3>Chaussures</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/chemise.jpg" alt="Habits"><h3>Habits</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/montres.jpg" alt="Montres"><h3>Montres</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/maillots.jpg" alt="Maillots"><h3>Maillots</h3><button>Visiter</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-box">
+            <input type="text" placeholder="Écrivez-nous...">
+            <button class="send-btn">Send</button>
+        </div>
+
+        <div class="box food">
+            <h2>Nos collections</h1></h2>
+            <div class="slider-container" id="food-items">
+                <div class="slider">
+                    <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/chaussure.jpg" alt="Chaussures"><h3>Chaussures</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/bip.jpg" alt="Habits"><h3>Habits</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/montres.jpg" alt="Montres"><h3>Montres</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/bov.jpg" alt="Maillots"><h3>Maillots</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
+                </div>
+            </div>
+            <div class="box food">
+                <h1>Les délices de ADJA ET AWA</h1></h2>
+                <div class="slider-container" id="food-items">
+                    <div class="slider">
+                        <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                        <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
+                        <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                        <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
+                    </div>
+                </div>
+                <div class="box food">
+                    <h1>LA BOUTIQUE DE YASMINE DOLLARS</h1></h2>
+                    <div class="slider-container" id="food-items">
+                        <div class="slider">
+                            <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                            <div class="card"><img src="image/boub.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                            <div class="card"><img src="image/bov.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                            <div class="card"><img src="image/bip.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                            <div class="card"><img src="image/boub.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                            <div class="card"><img src="image/bov.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                            
+                        </div>
+                        
+    </div>
+    <div class="box food">
+        <h1>RESTO VIRGO</h1></h2>
+        <div class="slider-container" id="food-items">
+            <div class="slider">
+                <div class="card"><img src="image/aloko.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                <div class="card"><img src="image/ATIèke.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                <div class="card"><img src="image/poulet.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                <div class="card"><img src="image/poison1.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                <div class="card"><img src="image/frit.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                <div class="card"><img src="image/soup de poisson.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                
+            </div>
+
+    <script>
+        function autoScroll(id, speed = 2) {
+            let container = document.getElementById(id);
+            let step = speed; // Vitesse du défilement
+            let scrollAmount = 0;
+    
+            function scrollContent() {
+                container.scrollLeft += step;
+                scrollAmount += step;
+    
+                // Revenir au début lorsque la fin est atteinte
+                if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+                    container.scrollLeft = 0;
+                    scrollAmount = 0;
+                }
+    
+                requestAnimationFrame(scrollContent);
+            }
+    
+            scrollContent();
+        }
+    
+        window.onload = () => {
+            autoScroll('products', 1.5);  // Ajuste la vitesse si besoin
+            autoScroll('food-items', 1.5);
+        };
+    </script>
+    
+</body>
+</html>
