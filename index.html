@@ -5,153 +5,266 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alls Store</title>
     <style>
-         * {
+        /* Styles généraux */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background-image: url('image/logo.jpg'); /* Remplace par le chemin de ton image */
-            background-size: cover; /* Ajuste l'image pour couvrir toute la page */
-            background-position: center; /* Centre l'image */
-            background-attachment: fixed; /* Fixe l'image lors du défilement */
-            font-family: Arial, sans-serif;
+            background-image: url('image/logo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: rgb(251, 22, 22);
             text-align: center;
-            padding: 50px;
+            padding: 20px;
         }
+
         h1 {
-            background: rgba(78, 3, 3, 0.6); /* Fond semi-transparent */
+            background: rgba(78, 3, 3, 0.8);
             display: inline-block;
             padding: 10px 20px;
             border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        .header {
-    font-size: 36px; /* Texte plus gros */
-    font-weight: bold;
-    margin-bottom: 10px;
-    background-color: #333; /* Fond de l'en-tête */
-    color: white; /* Texte en blanc */
-    padding: 15px; /* Espacement interne */
-    text-align: center; /* Centrage du texte */
-    border-radius: 10px; /* Coins arrondis */
-}
-        @media screen and (max-width: 768px) {
-    body {
-        padding: 20px;
-        background-size: contain;
-    }
-    .container {
-        max-width: 100%;
-        padding: 10px;
-    }
-    .box {
-        padding: 10px;
-        margin: 10px 0;
-    }
-    .header {
-        font-size: 24px;
-        padding: 10px;
-    }
-    .slider-container {
-        padding: 5px;
-    }
-    .card {
-        width: 120px;
-        padding: 5px;
-    }
-    .card img {
-        height: 80px;
-    }
-    input {
-        width: 100%;
-    }
-}
 
+        .header {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #222, #444);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            margin: 0 auto 20px auto;
+        }
 
         .container {
             max-width: 800px;
             margin: auto;
         }
+
+        /* Style des boîtes */
         .box {
             border: 3px solid black;
             padding: 15px;
-            margin: 15px 0;
+            margin: 20px 0;
             background-size: cover;
             background-position: center;
-            border-radius: 10px;
+            border-radius: 15px;
             position: relative;
             overflow: hidden;
-            color: white; /* Couleur du texte pour être visible sur le fond */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
         }
+
         /* Fond d'écran pour chaque cadre */
         .store {
-            background-image: url('image/maillots.jpg'); /* Image de fond pour Check Store */
+            background-image: url('image/maillots.jpg');
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
         }
+
         .food {
-            background-image: url('image/logo.jpg'); /* Image de fond pour Les crêpes des ADJA ET AWA */
+            background-image: url('image/logo.jpg');
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
         }
+
+        /* Style du slider */
         .slider-container {
             display: flex;
             overflow-x: auto;
             scroll-behavior: smooth;
             width: 100%;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.8); /* Fond semi-transparent pour mieux voir le texte */
-            border-radius: 10px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
         }
+
         .slider-container::-webkit-scrollbar {
-            display: none;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
         }
+
+        .slider-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
         .slider {
             display: flex;
             gap: 20px;
             transition: transform 0.5s ease-in-out;
+            padding: 5px 0;
         }
+
+        /* Style des cartes produits */
         .card {
             background: white;
             border: 2px solid black;
-            border-radius: 10px;
+            border-radius: 12px;
             width: 150px;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             flex: 0 0 auto;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
         .card img {
             width: 100%;
             height: 100px;
             object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
         }
+
+        .card h3 {
+            margin: 8px 0;
+            color: #333;
+        }
+
         .card button {
-            background-color: blue;
+            background: linear-gradient(to right, #0056b3, #007bff);
             color: white;
             padding: 8px;
             border: none;
             width: 100%;
             cursor: pointer;
-            margin-top: 5px;
-            border-radius: 5px;
+            margin-top: 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.3s ease;
         }
+
+        .card button:hover {
+            background: linear-gradient(to right, #004494, #0062cc);
+        }
+
+        /* Style de la boîte de saisie */
         .input-box {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin: 25px 0;
         }
+
         input {
-            padding: 8px;
-            width: 200px;
-            border: 2px solid black;
-            border-radius: 5px;
+            padding: 10px 15px;
+            width: 70%;
+            border: 2px solid #333;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
+
         .send-btn {
-            background: blue;
+            background: linear-gradient(to right, #0056b3, #007bff);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             cursor: pointer;
-            margin-left: 5px;
-            border-radius: 5px;
+            border-radius: 0 8px 8px 0;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background: linear-gradient(to right, #004494, #0062cc);
+        }
+
+        /* Styles spécifiques pour mobile */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header {
+                font-size: 24px;
+                padding: 12px;
+                width: 95%;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+            
+            .box {
+                padding: 12px;
+                margin: 15px 0;
+                border-width: 2px;
+            }
+            
+            h1, h2 {
+                font-size: 20px;
+                padding: 8px 12px;
+            }
+            
+            .slider-container {
+                padding: 8px;
+            }
+            
+            .card {
+                width: 130px;
+                padding: 8px;
+            }
+            
+            .card img {
+                height: 90px;
+            }
+            
+            input {
+                width: 65%;
+                padding: 10px;
+            }
+            
+            .send-btn {
+                padding: 10px 15px;
+            }
+        }
+
+        /* Styles pour très petits écrans */
+        @media screen and (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+            
+            .card {
+                width: 110px;
+            }
+            
+            .card img {
+                height: 80px;
+            }
+            
+            .header {
+                font-size: 20px;
+                padding: 10px;
+            }
+            
+            .slider-container {
+                padding: 6px;
+            }
+            
+            input {
+                width: 60%;
+            }
         }
     </style>
 </head>
@@ -162,7 +275,7 @@
     <div class="container">
 
         <div class="box store">
-            <h2>Check Store</h1></h2>
+            <h2>Check Store</h2>
             <div class="slider-container" id="products">
                 <div class="slider">
                     <div class="card"><img src="image/chaussure.jpg" alt="Chaussures"><h3>Chaussures</h3><button>Visiter</button></div>
@@ -187,7 +300,7 @@
         </div>
 
         <div class="box food">
-            <h2>Nos collections</h1></h2>
+            <h2>Nos collections</h2>
             <div class="slider-container" id="food-items">
                 <div class="slider">
                     <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
@@ -202,42 +315,48 @@
                     <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
                 </div>
             </div>
-            <div class="box food">
-                <h1>Les délices de ADJA ET AWA</h1></h2>
-                <div class="slider-container" id="food-items">
-                    <div class="slider">
-                        <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
-                        <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
-                        <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
-                        <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
-                    </div>
+        </div>
+            
+        <div class="box food">
+            <h1>Les délices de ADJA ET AWA</h1>
+            <div class="slider-container" id="food-items">
+                <div class="slider">
+                    <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/crepe.jpg" alt="Crêpe"><h3>Crêpe</h3><button>Visiter</button></div>
+                    <div class="card"><img src="image/yaourt.jpg" alt="Yaourt"><h3>Yaourt</h3><button>Visiter</button></div>
                 </div>
-                <div class="box food">
-                    <h1>LA BOUTIQUE DE YASMINE DOLLARS</h1></h2>
-                    <div class="slider-container" id="food-items">
-                        <div class="slider">
-                            <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                            <div class="card"><img src="image/boub.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                            <div class="card"><img src="image/bov.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                            <div class="card"><img src="image/bip.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                            <div class="card"><img src="image/boub.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                            <div class="card"><img src="image/bov.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                            
-                        </div>
-                        
-    </div>
-    <div class="box food">
-        <h1>RESTO VIRGO</h1></h2>
-        <div class="slider-container" id="food-items">
-            <div class="slider">
-                <div class="card"><img src="image/aloko.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                <div class="card"><img src="image/ATIèke.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                <div class="card"><img src="image/poulet.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                <div class="card"><img src="image/poison1.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                <div class="card"><img src="image/frit.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                <div class="card"><img src="image/soup de poisson.jpg"  alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                
             </div>
+        </div>
+                
+        <div class="box food">
+            <h1>LA BOUTIQUE DE YASMINE DOLLARS</h1>
+            <div class="slider-container" id="food-items">
+                <div class="slider">
+                    <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/boub.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/bov.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/boub.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/bov.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="box food">
+            <h1>RESTO VIRGO</h1>
+            <div class="slider-container" id="food-items">
+                <div class="slider">
+                    <div class="card"><img src="image/aloko.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/ATIèke.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/poulet.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/poison1.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/frit.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                    <div class="card"><img src="image/soup de poisson.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function autoScroll(id, speed = 2) {
