@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique en Ligne</title>
+    <style>
+        body {
+            background-image: url('image/maillots.jpg'); /* Remplace par le chemin de ton image */
+            background-size: cover; /* Ajuste l'image pour couvrir toute la page */
+            background-position: center; /* Centre l'image */
+            background-attachment: fixed; /* Fixe l'image lors du défilement */
+            font-family: Arial, sans-serif;
+            color: rgb(227, 213, 213);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        /* Responsive Design pour petits écrans */
+        @media (max-width: 600px) {
+            .articles {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .article {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Responsive Design pour tablettes Android */
+        @media (min-width: 601px) and (max-width: 900px) {
+            .articles {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .article {
+                width: 45%;
+            }
+        }
+        
+        .header {
+            font-size: 36px; /* Texte plus gros */
+            font-weight: bold;
+            margin-bottom: 30px;
+            background-color: rgba(51, 51, 51, 0.9); /* Fond de l'en-tête semi-transparent */
+            color: white; /* Texte en blanc */
+            padding: 20px; /* Espacement interne */
+            text-align: center; /* Centrage du texte */
+            border-radius: 15px; /* Coins arrondis */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre portée */
+            text-transform: uppercase; /* Majuscules */
+            letter-spacing: 2px; /* Espacement des lettres */
+        }
+        
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .articles { 
+            width: 90%; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .article { 
+            width: 280px; 
+            border: 1px solid #030303; 
+            padding: 15px; 
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .article img { 
+            width: 200px; 
+            height: 200px; 
+            display: block; 
+            margin: 0 auto 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .article img:hover {
+            transform: scale(1.05);
+        }
+        
+        .article p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .article button {
+            background-color: #f10e0e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .article button:hover {
+            background-color: #d60a0a;
+        }
+        
+        .panier { 
+            width: 80%; 
+            padding: 25px; 
+            border: 2px solid #f10e0e; 
+            background-color: rgba(8, 7, 7, 0.9);
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .panier h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #f10e0e;
+        }
+        
+        .panier ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .panier li {
+            padding: 10px;
+            border-bottom: 1px dashed #555;
+        }
+        
+        .panier p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .panier button {
+            background-color: #f10e0e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .panier button:hover {
+            background-color: #d60a0a;
+            transform: scale(1.05);
+        }
+        
+        .retour { 
+            margin-top: 30px; 
+            display: inline-block; 
+            padding: 12px 20px; 
+            border: 1px solid #f0eeee; 
+            text-decoration: none;
+            color: rgb(227, 213, 213);
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .retour:hover {
+            background-color: rgba(240, 238, 238, 0.2);
+            color: white;
+        }
+        
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.9); 
+            justify-content: center; 
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal img { 
+            max-width: 90%; 
+            max-height: 90%;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 20px;
+                background-size: contain;
+            }
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .box {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            .header {
+                font-size: 24px;
+                padding: 10px;
+            }
+            .slider-container {
+                padding: 5px;
+            }
+            .card {
+                width: 120px;
+                padding: 5px;
+            }
+            .card img {
+                height: 80px;
+            }
+            input {
+                width: 100%;
+            }
+        }
+        
+        .modal.active { 
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Styles pour le formulaire */
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #f10e0e;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .form-container h2 {
+            color: #f10e0e;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #000;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .form-buttons button {
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .form-buttons .submit-btn {
+            background-color: #f10e0e;
+            color: white;
+        }
+        
+        .form-buttons .submit-btn:hover {
+            background-color: #d60a0a;
+        }
+        
+        .form-buttons .cancel-btn {
+            background-color: #333;
+            color: white;
+        }
+        
+        .form-buttons .cancel-btn:hover {
+            background-color: #555;
+        }
+        
+        /* Style pour le message de remerciement */
+        .thank-you-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+        }
+        
+        .thank-you-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #4CAF50; /* Vert pour le succès */
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .thank-you-container h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .thank-you-container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .thank-you-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .thank-you-container button:hover {
+            background-color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Bienvenue dans CHEICK STORE</div>
+    <div class="container">
+        <div class="articles">
+            <div class="article" data-nom="Article x10" data-prix="12000">
+                <img src="image/a23.jpg" alt="Artixle x10" onclick="agrandirImage(this)">
+                <p>Article x10 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x11" data-prix="12000">
+                <img src="image/a24.jpg" alt="Article x11" onclick="agrandirImage(this)">
+                <p>Article x11 12000 FCFA</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x12" data-prix="11000">
+                <img src="image/a25.jpg" alt="Article x12" onclick="agrandirImage(this)">
+                <p>Article x12 11000 FCFA</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x13" data-prix="12000">
+                <img src="image/a26.jpg" alt="Article x13" onclick="agrandirImage(this)">
+                <p>Article x13 12000 FCFA L4</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Maillots L5" data-prix="10000">
+                <img src="image/a7.jpg" alt="Maillots L5" onclick="agrandirImage(this)">
+                <p>Maillots 10000 FCFA L5</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Maillots L6" data-prix="12000">
+                <img src="image/a8.jpg" alt="Maillots L6" onclick="agrandirImage(this)">
+                <p>Maillots 12000 FCFA L6</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Maillots L7" data-prix="8000">
+                <img src="image/a9.jpg" alt="Maillots L7" onclick="agrandirImage(this)">
+                <p>Maillots 8000 FCFA L7</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Jeans L8" data-prix="12000">
+                <img src="image/a11.jpg" alt="jeans L8" onclick="agrandirImage(this)">
+                <p>Jeans 12000 FCFA L8</p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Cargo L9" data-prix="12000">
+                <img src="image/a12.jpg" alt="Cargo L9" onclick="agrandirImage(this)">
+                <p>Cargo 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Jeans L10" data-prix="15000">
+                <img src="image/a13.jpg" alt="Jeans L10" onclick="agrandirImage(this)">
+                <p>Jeans 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x1" data-prix="15000">
+                <img src="image/a14.jpg" alt="Article x1" onclick="agrandirImage(this)">
+                <p>Article x1 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x2" data-prix="15000">
+                <img src="image/a28.jpg" alt="Article x2" onclick="agrandirImage(this)">
+                <p>Article x2  15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x4" data-prix="10000">
+                <img src="image/a16.jpg" alt="Article x4" onclick="agrandirImage(this)">
+                <p>Article x4 10000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x5" data-prix="15000">
+                <img src="image/a17.jpg" alt="Article x5" onclick="agrandirImage(this)">
+                <p>Article x5 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x7" data-prix="15000">
+                <img src="image/a18.jpg" alt="Article x7" onclick="agrandirImage(this)">
+                <p>Article x7 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x8" data-prix="15000">
+                <img src="image/a19.jpg" alt="Article x8" onclick="agrandirImage(this)">
+                <p>Article x8 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x9" data-prix="12000">
+                <img src="image/a22.jpg" alt="Article x9" onclick="agrandirImage(this)">
+                <p>Article x9 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x10" data-prix="15000">
+                <img src="image/a26.jpg" alt="Article x10" onclick="agrandirImage(this)">
+                <p>Article x10 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x14" data-prix="12000">
+                <img src="image/a29.jpg" alt="Article x14" onclick="agrandirImage(this)">
+                <p>Article x14 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x15" data-prix="14000">
+                <img src="image/a22.jpg" alt="Article x15" onclick="agrandirImage(this)">
+                <p>Article x15 14000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x16" data-prix="12000">
+                <img src="image/A51.jpg" alt="Article x16" onclick="agrandirImage(this)">
+                <p>Article x16 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x17" data-prix="12000">
+                <img src="image/a27.jpg" alt="Article x17" onclick="agrandirImage(this)">
+                <p>Article x17 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x1" data-prix="15000">
+                <img src="image/a14.jpg" alt="Article x1" onclick="agrandirImage(this)">
+                <p>Article x1 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x2" data-prix="15000">
+                <img src="image/a28.jpg" alt="Article x2" onclick="agrandirImage(this)">
+                <p>Article 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x4" data-prix="10000">
+                <img src="image/a16.jpg" alt="Article x4" onclick="agrandirImage(this)">
+                <p>Article x4 10000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x5" data-prix="15000">
+                <img src="image/a17.jpg" alt="Article x5" onclick="agrandirImage(this)">
+                <p>Article x5 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x7" data-prix="15000">
+                <img src="image/a18.jpg" alt="Article x7" onclick="agrandirImage(this)">
+                <p>Article x7 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x8" data-prix="15000">
+                <img src="image/a19.jpg" alt="Article x8" onclick="agrandirImage(this)">
+                <p>Article x8 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x9" data-prix="12000">
+                <img src="image/a22.jpg" alt="Article x9" onclick="agrandirImage(this)">
+                <p>Article x9 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x10" data-prix="15000">
+                <img src="image/a26.jpg" alt="Article x10" onclick="agrandirImage(this)">
+                <p>Article x10 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x14" data-prix="12000">
+                <img src="image/a29.jpg" alt="Article x14" onclick="agrandirImage(this)">
+                <p>Article x14 15000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x15" data-prix="14000">
+                <img src="image/a22.jpg" alt="Article x15" onclick="agrandirImage(this)">
+                <p>Article x15 14000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x16" data-prix="12000">
+                <img src="image/A51.jpg" alt="Article x16" onclick="agrandirImage(this)">
+                <p>Article x16 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+            <div class="article" data-nom="Article x17" data-prix="12000">
+                <img src="image/a27.jpg" alt="Article x17" onclick="agrandirImage(this)">
+                <p>Article x17 12000 FCFA </p>
+                <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
+            </div>
+        </div>
+        <div class="panier">
+            <h2>Mon Panier 😊</h2>
+            <ul id="liste-panier"></ul>
+            <p>Total: <span id="total">0</span> FCFA</p>
+            <button onclick="passerCommande()">Passer la commande</button>
+        </div>
+    </div>
+    <a href="index.html" class="retour">Retour à la page d'accueil ⬅</a>
+
+    <!-- Modal pour agrandir les images -->
+    <div class="modal" id="modal" onclick="fermerModal()">
+        <img id="modal-img" src="" alt="Image agrandie">
+    </div>
+    
+    <!-- Modal pour le formulaire de commande -->
+    <div class="form-modal" id="form-modal">
+        <div class="form-container">
+            <h2>Finaliser votre commande</h2>
+            <form id="commande-form">
+                <div class="form-group">
+                    <label for="nom">Votre nom complet *</label>
+                    <input type="text" id="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="date-livraison">Date de livraison souhaitée *</label>
+                    <input type="date" id="date-livraison" required>
+                </div>
+                <div class="form-group">
+                    <label for="localisation">Votre localisation précise *</label>
+                    <textarea id="localisation" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Votre numéro de téléphone *</label>
+                    <input type="tel" id="telephone" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" onclick="fermerFormulaire()">Annuler</button>
+                    <button type="submit" class="submit-btn">Confirmer la commande</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pour le message de remerciement -->
+    <div class="thank-you-modal" id="thank-you-modal">
+        <div class="thank-you-container">
+            <h2>Merci pour votre commande ! 🎉</h2>
+            <p>Votre commande a été transmise avec succès. Nous vous contacterons prochainement pour confirmer votre livraison.</p>
+            <button onclick="fermerRemerciement()">Continuer mes achats</button>
+        </div>
+    </div>
+    
+    <script>
+        let panier = []; // Pour stocker les articles du panier
+        let total = 0;
+        
+        // Définir la date minimale pour la livraison (aujourd'hui + 1 jour)
+        window.onload = function() {
+            const dateInput = document.getElementById("date-livraison");
+            const demain = new Date();
+            demain.setDate(demain.getDate() + 1);
+            
+            // Formater la date au format YYYY-MM-DD pour l'input date
+            const annee = demain.getFullYear();
+            const mois = String(demain.getMonth() + 1).padStart(2, '0');
+            const jour = String(demain.getDate()).padStart(2, '0');
+            
+            dateInput.min = `${annee}-${mois}-${jour}`;
+        };
+        
+        function ajouterAuPanier(button) {
+            let article = button.parentElement;
+            let nom = article.getAttribute("data-nom");
+            let prix = parseFloat(article.getAttribute("data-prix"));
+            
+            // Ajouter l'article au tableau panier
+            panier.push({nom: nom, prix: prix});
+            
+            let listePanier = document.getElementById("liste-panier");
+            let nouvelElement = document.createElement("li");
+            nouvelElement.textContent = `${nom} - ${prix} FCFA`;
+            listePanier.appendChild(nouvelElement);
+            
+            total += prix;
+            document.getElementById("total").textContent = total;
+        }
+        
+        function passerCommande() {
+            // Vérifier que le panier n'est pas vide
+            if (panier.length === 0) {
+                alert("Votre panier est vide. Veuillez ajouter des articles avant de passer commande.");
+                return;
+            }
+            
+            // Afficher le formulaire
+            document.getElementById("form-modal").style.display = "flex";
+        }
+        
+        function fermerFormulaire() {
+            document.getElementById("form-modal").style.display = "none";
+        }
+        
+        function fermerRemerciement() {
+            document.getElementById("thank-you-modal").style.display = "none";
+            // Vider le panier après confirmation
+            panier = [];
+            total = 0;
+            document.getElementById("liste-panier").innerHTML = "";
+            document.getElementById("total").textContent = "0";
+        }
+        
+        function agrandirImage(img) {
+            document.getElementById("modal-img").src = img.src;
+            document.getElementById("modal").classList.add("active");
+        }
+        
+        function fermerModal() {
+            document.getElementById("modal").classList.remove("active");
+        }
+        
+        // Gérer la soumission du formulaire
+        document.getElementById("commande-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Récupérer les informations du formulaire
+            const nom = document.getElementById("nom").value;
+            const dateLivraison = document.getElementById("date-livraison").value;
+            const localisation = document.getElementById("localisation").value;
+            const telephone = document.getElementById("telephone").value;
+            
+            // Numéro de téléphone WhatsApp (à remplacer par votre numéro)
+            const numeroWhatsApp = "2250172369840";
+            
+            // Création du message détaillant la commande
+            let messageCommande = `Bonjour, je souhaite commander les articles suivants :\n\n`;
+            
+            panier.forEach((article, index) => {
+                messageCommande += `${index + 1}. ${article.nom} - ${article.prix} FCFA\n`;
+            });
+            
+            messageCommande += `\nTotal: ${total} FCFA\n\n`;
+            messageCommande += `Informations client:\n`;
+            messageCommande += `Nom: ${nom}\n`;
+            messageCommande += `Date de livraison souhaitée: ${dateLivraison}\n`;
+            messageCommande += `Localisation: ${localisation}\n`;
+            messageCommande += `Téléphone: ${telephone}`;
+            
+            // Encodage du message pour l'URL
+            const messageEncode = encodeURIComponent(messageCommande);
+            
+            // Construction de l'URL WhatsApp
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${messageEncode}`;
+            
+            // Redirection vers WhatsApp
+            window.open(urlWhatsApp, '_blank');
+            
+            // Fermer le formulaire
+            fermerFormulaire();
+            
+            // Afficher le message de remerciement après 1 seconde (simulation du délai d'une minute)
+            setTimeout(function() {
+                document.getElementById("thank-you-modal").style.display = "flex";
+            }, 1000); // 1000ms = 1 seconde (pour la démo, à remplacer par 60000 pour 1 minute)
+        });
+    </script>
+</body>
+</html>
