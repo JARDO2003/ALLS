@@ -102,5 +102,24 @@
         </footer>
     </div>
 
+    <script>
+        function verifierMotDePasse() {
+            var motDePasse = prompt("Entrez le mot de passe :");
+            var motDePasseCorrect = "200320"; // Remplacez par votre mot de passe sécurisé
+            
+            if (motDePasse === motDePasseCorrect) {
+                window.location.href = "fournisseur.html";
+            } else {
+                alert("Mot de passe incorrect !");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="verifierMotDePasse()">alls</button>
+</body>
+</html>
+
+
 </body>
 </html>
