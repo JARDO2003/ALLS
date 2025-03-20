@@ -730,5 +730,27 @@
             }, 1000); // 1000ms = 1 seconde (pour la démo, à remplacer par 60000 pour 1 minute)
         });
     </script>
+     <script>
+        function verifierMotDePasse() {
+            var motDePasse = prompt("Entrez le mot de passe :");
+            var motDePasseCorrect = "200320"; // Remplacez par votre mot de passe sécurisé
+            
+            if (motDePasse === motDePasseCorrect) {
+                window.location.href = "ajout.html";
+            } else {
+                alert("Mot de passe incorrect !");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="verifierMotDePasse()">Ajouté un article</button>
 </body>
 </html>
+
+
+</body>
+</html>
+
+
+
