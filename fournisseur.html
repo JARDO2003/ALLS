@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Fournisseurs</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .fournisseur-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .fournisseur-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #fff;
+            position: relative;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .fournisseur-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .boutique-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .fournisseur-info {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 15px;
+        }
+        .info-section {
+            padding-right: 15px;
+        }
+        .info-label {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .info-item {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .photo-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 150px;
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .date {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .danger-button {
+            background-color: #e74c3c;
+        }
+        .danger-button:hover {
+            background-color: #c0392b;
+        }
+        .no-fournisseurs {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 18px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Liste des Fournisseurs</h1>
+        <a href="formulaire.html" class="button">Ajouter un fournisseur</a>
+    </div>
+    
+    <div id="message" class="success" style="display: none;"></div>
+    <div id="loading" class="loading">Chargement des informations...</div>
+    <div id="error" class="error" style="display: none;"></div>
+    <div id="fournisseursList" class="fournisseur-list" style="display: none;"></div>
+    
+    <div class="footer">
+        <button id="deleteAllBtn" class="button danger-button">Supprimer tous les fournisseurs</button>
+    </div>
+    
+    <!-- Modal de confirmation -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmation</h2>
+            <p>Êtes-vous sûr de vouloir supprimer tous les fournisseurs ? Cette action est irréversible.</p>
+            <div class="modal-buttons">
+                <button id="confirmDeleteBtn" class="button danger-button">Oui, supprimer tout</button>
+                <button id="cancelDeleteBtn" class="button">Annuler</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, get, remove, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+        import { getStorage, ref as storageRef, deleteObject, listAll } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCL0VrMAt9XNGgX1e0_HIEVC03teeOvqtY",
+            authDomain: "marciojardel-ce0d5.firebaseapp.com",
+            databaseURL: "https://marciojardel-ce0d5-default-rtdb.firebaseio.com",
+            projectId: "marciojardel-ce0d5",
+            storageBucket: "marciojardel-ce0d5.appspot.com",
+            messagingSenderId: "313912737797",
+            appId: "1:313912737797:web:72fee65438c79c86715c6c",
+            measurementId: "G-YN957W0TE0"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const storage = getStorage(app);
+        
+        // Get DOM elements
+        const loadingDiv = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        const messageDiv = document.getElementById('message');
+        const fournisseursListDiv = document.getElementById('fournisseursList');
+        const deleteAllBtn = document.getElementById('deleteAllBtn');
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        
+        // Load all fournisseurs
+        loadAllFournisseurs();
+        
+        // Setup event listeners for delete functionality
+        deleteAllBtn.addEventListener('click', () => {
+            confirmModal.style.display = 'flex';
+        });
+        
+        cancelDeleteBtn.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+        
+        confirmDeleteBtn.addEventListener('click', async () => {
+            confirmModal.style.display = 'none';
+            await deleteAllFournisseurs();
+        });
+        
+        // Delete a single fournisseur
+        async function deleteFournisseur(id) {
+            try {
+                // First, try to delete photos from storage
+                try {
+                    const folderRef = storageRef(storage, `photos/${id}`);
+                    const filesList = await listAll(folderRef);
+                    
+                    // Delete each file
+                    const deletePromises = filesList.items.map(fileRef => deleteObject(fileRef));
+                    await Promise.all(deletePromises);
+                } catch (storageError) {
+                    console.warn("Erreur lors de la suppression des photos:", storageError);
+                    // Continue with deleting the database entry even if storage deletion fails
+                }
+                
+                // Delete the database entry
+                await remove(ref(database, `fournisseurs/${id}`));
+                
+                // Show success message
+                showMessage("Fournisseur supprimé avec succès.", "success");
+                
+                // Reload the list
+                loadAllFournisseurs();
+                
+            } catch (error) {
+                console.error("Erreur lors de la suppression:", error);
+                showMessage("Une erreur s'est produite lors de la suppression.", "error");
+            }
+        }
+        
+        // Delete all fournisseurs
+        async function deleteAllFournisseurs() {
+            try {
+                showMessage("Suppression en cours...", "info");
+                
+                // Get all fournisseurs first to know their IDs
+                const fournisseursRef = ref(database, 'fournisseurs');
+                const snapshot = await get(fournisseursRef);
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const fournisseurIds = Object.keys(data);
+                    
+                    // Delete photos from storage for each fournisseur
+                    for (const id of fournisseurIds) {
+                        try {
+                            const folderRef = storageRef(storage, `photos/${id}`);
+                            const filesList = await listAll(folderRef);
+                            
+                            // Delete each file
+                            const deletePromises = filesList.items.map(fileRef => deleteObject(fileRef));
+                            await Promise.all(deletePromises);
+                        } catch (storageError) {
+                            console.warn(`Erreur lors de la suppression des photos pour ${id}:`, storageError);
+                            // Continue with the next fournisseur
+                        }
+                    }
+                    
+                    // Delete all fournisseurs from the database
+                    await set(ref(database, 'fournisseurs'), null);
+                    
+                    showMessage("Tous les fournisseurs ont été supprimés avec succès.", "success");
+                    
+                    // Clear and update the UI
+                    fournisseursListDiv.innerHTML = '<div class="no-fournisseurs">Aucun fournisseur inscrit pour le moment.</div>';
+                    fournisseursListDiv.style.display = "block";
+                    loadingDiv.style.display = "none";
+                } else {
+                    showMessage("Aucun fournisseur à supprimer.", "info");
+                }
+            } catch (error) {
+                console.error("Erreur lors de la suppression des fournisseurs:", error);
+                showMessage("Une erreur s'est produite lors de la suppression.", "error");
+            }
+        }
+        
+        async function loadAllFournisseurs() {
+            try {
+                const fournisseursRef = ref(database, 'fournisseurs');
+                const snapshot = await get(fournisseursRef);
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    displayFournisseursList(data);
+                } else {
+                    fournisseursListDiv.innerHTML = '<div class="no-fournisseurs">Aucun fournisseur inscrit pour le moment.</div>';
+                    loadingDiv.style.display = "none";
+                    fournisseursListDiv.style.display = "block";
+                }
+            } catch (error) {
+                console.error("Erreur lors du chargement des données:", error);
+                showError("Une erreur s'est produite lors du chargement des données.");
+            }
+        }
+        
+        function displayFournisseursList(data) {
+            // Convert to array and sort by date (newest first)
+            const fournisseursArray = Object.entries(data).map(([id, fournisseur]) => ({
+                id,
+                ...fournisseur
+            }));
+            
+            fournisseursArray.sort((a, b) => {
+                const dateA = new Date(a.dateInscription || 0);
+                const dateB = new Date(b.dateInscription || 0);
+                return dateB - dateA;
+            });
+            
+            // Clear the container
+            fournisseursListDiv.innerHTML = '';
+            
+            if (fournisseursArray.length === 0) {
+                fournisseursListDiv.innerHTML = '<div class="no-fournisseurs">Aucun fournisseur inscrit pour le moment.</div>';
+            } else {
+                // Create a card for each fournisseur
+                fournisseursArray.forEach(fournisseur => {
+                    const card = createFournisseurCard(fournisseur);
+                    fournisseursListDiv.appendChild(card);
+                });
+            }
+            
+            // Hide loading and show list
+            loadingDiv.style.display = "none";
+            fournisseursListDiv.style.display = "block";
+        }
+        
+        function createFournisseurCard(fournisseur) {
+            const card = document.createElement('div');
+            card.className = 'fournisseur-card';
+            card.id = `fournisseur-${fournisseur.id}`;
+            
+            // Add delete button for individual fournisseur
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '✕';
+            deleteBtn.title = 'Supprimer ce fournisseur';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm(`Êtes-vous sûr de vouloir supprimer le fournisseur "${fournisseur.nomBoutique || 'Sans nom'}" ?`)) {
+                    deleteFournisseur(fournisseur.id);
+                }
+            });
+            card.appendChild(deleteBtn);
+            
+            // Format date
+            let dateDisplay = "Date inconnue";
+            if (fournisseur.dateInscription) {
+                const date = new Date(fournisseur.dateInscription);
+                dateDisplay = `Inscrit le ${date.toLocaleDateString()}`;
+            }
+            
+            // Create header
+            const header = document.createElement('div');
+            header.className = 'fournisseur-header';
+            header.innerHTML = `
+                <h2 class="boutique-name">${fournisseur.nomBoutique || "Boutique sans nom"}</h2>
+                <span class="date">${dateDisplay}</span>
+            `;
+            
+            // Create info section
+            const infoSection = document.createElement('div');
+            infoSection.className = 'fournisseur-info';
+            
+            // Left column with text info
+            const leftColumn = document.createElement('div');
+            leftColumn.className = 'info-section';
+            
+            // Formater l'affichage du contact en fonction du type
+            let contactDisplay = "Non renseigné";
+            if (fournisseur.typeContact && fournisseur.contactValue) {
+                const typeLabel = fournisseur.typeContact === 'whatsapp' ? 'WhatsApp' : 'Gmail';
+                contactDisplay = `${typeLabel}: ${fournisseur.contactValue}`;
+            }
+            
+            leftColumn.innerHTML = `
+                <div class="info-item">
+                    <span class="info-label">Propriétaire</span>
+                    <span>${fournisseur.nom || "Inconnu"}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Contact</span>
+                    <span>${contactDisplay}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Mot de passe</span>
+                    <span>${fournisseur.motDePasse || "Non défini"}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Description</span>
+                    <span>${fournisseur.description || "Aucune description"}</span>
+                </div>
+            `;
+            
+            // Right column with photos
+            const rightColumn = document.createElement('div');
+            rightColumn.className = 'info-section';
+            
+            const photosLabel = document.createElement('div');
+            photosLabel.className = 'info-label';
+            photosLabel.textContent = 'Photos des articles';
+            
+            const photosGrid = document.createElement('div');
+            photosGrid.className = 'photos-grid';
+            
+            // Add photos to grid
+            if (fournisseur.photos && fournisseur.photos.length > 0) {
+                fournisseur.photos.forEach(url => {
+                    const photoDiv = document.createElement('div');
+                    photoDiv.className = 'photo-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = "Article de " + fournisseur.nomBoutique;
+                    
+                    photoDiv.appendChild(img);
+                    photosGrid.appendChild(photoDiv);
+                });
+            } else {
+                photosGrid.innerHTML = "<p>Aucune photo disponible</p>";
+            }
+            
+            rightColumn.appendChild(photosLabel);
+            rightColumn.appendChild(photosGrid);
+            
+            // Assemble the card
+            infoSection.appendChild(leftColumn);
+            infoSection.appendChild(rightColumn);
+            
+            card.appendChild(header);
+            card.appendChild(infoSection);
+            
+            return card;
+        }
+        
+        function showError(message) {
+            loadingDiv.style.display = "none";
+            errorDiv.textContent = message;
+            errorDiv.style.display = "block";
+            
+            // Hide error after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = "none";
+            }, 5000);
+        }
+        
+        function showMessage(message, type) {
+            messageDiv.textContent = message;
+            messageDiv.className = type;
+            messageDiv.style.display = "block";
+            
+            // Hide message after 5 seconds if it's a success message
+            if (type === "success" || type === "info") {
+                setTimeout(() => {
+                    messageDiv.style.display = "none";
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>

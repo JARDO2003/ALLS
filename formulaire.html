@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire Fournisseur</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .contact-group {
+            display: flex;
+            gap: 10px;
+        }
+        .contact-group select {
+            width: 30%;
+        }
+        .contact-group input {
+            width: 70%;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .photo-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border: 1px dashed #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .thank-you-container {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .thank-you-container h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .thank-you-container p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .thank-you-icon {
+            font-size: 64px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        #countdown {
+            font-size: 100px;
+            font-weight: bold;
+            color: #3498db;
+            text-align: center;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+        #waitingMessage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            display: none;
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            width: 80%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="formContainer">
+        <h1>Inscription Fournisseur</h1>
+        
+        <div id="message" style="display: none;"></div>
+        
+        <form id="fournisseurForm">
+            <div class="form-group">
+                <label for="nom">Nom:</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="motDePasse">Mot de passe:</label>
+                <input type="password" id="motDePasse" name="motDePasse" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nomBoutique">Nom de la boutique:</label>
+                <input type="text" id="nomBoutique" name="nomBoutique" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="typeContact">Contact:</label>
+                <div class="contact-group">
+                    <select id="typeContact" name="typeContact" required>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="gmail">Gmail</option>
+                    </select>
+                    <input type="text" id="contactValue" name="contactValue" required placeholder="Entrez votre numéro WhatsApp ou adresse Gmail">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description de la boutique:</label>
+                <textarea id="description" name="description" rows="4"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Photos des articles (minimum 4):</label>
+                <input type="file" id="photoInput" accept="image/*" multiple>
+                <div class="photo-container" id="photoContainer">
+                    <div class="photo-preview" id="photoPreview1"></div>
+                    <div class="photo-preview" id="photoPreview2"></div>
+                    <div class="photo-preview" id="photoPreview3"></div>
+                    <div class="photo-preview" id="photoPreview4"></div>
+                </div>
+            </div>
+            
+            <button type="submit">Enregistrer</button>
+        </form>
+    </div>
+
+    <div id="countdown">5</div>
+    <div id="waitingMessage">Patientez, veuillez ne pas sortir de cette page...</div>
+
+    <div id="thankYouContainer" class="thank-you-container">
+        <div class="thank-you-icon">✓</div>
+        <h2>Merci pour votre inscription!</h2>
+        <p>Votre demande d'inscription en tant que fournisseur a été soumise avec succès.</p>
+        <p>Veuillez patienter, nous examinerons votre candidature dans les 24 heures.</p>
+        <p>Vous recevrez une confirmation via votre contact fourni dès que votre compte sera activé.</p>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCL0VrMAt9XNGgX1e0_HIEVC03teeOvqtY",
+            authDomain: "marciojardel-ce0d5.firebaseapp.com",
+            databaseURL: "https://marciojardel-ce0d5-default-rtdb.firebaseio.com",
+            projectId: "marciojardel-ce0d5",
+            storageBucket: "marciojardel-ce0d5.appspot.com",
+            messagingSenderId: "313912737797",
+            appId: "1:313912737797:web:72fee65438c79c86715c6c",
+            measurementId: "G-YN957W0TE0"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const storage = getStorage(app);
+        
+        // Handle photo upload preview
+        const photoInput = document.getElementById('photoInput');
+        const photoContainers = [
+            document.getElementById('photoPreview1'),
+            document.getElementById('photoPreview2'),
+            document.getElementById('photoPreview3'),
+            document.getElementById('photoPreview4')
+        ];
+        
+        let selectedFiles = [];
+        
+        photoInput.addEventListener('change', (event) => {
+            const files = event.target.files;
+            selectedFiles = Array.from(files);
+            
+            // Display previews
+            for (let i = 0; i < photoContainers.length; i++) {
+                if (files[i]) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(files[i]);
+                    photoContainers[i].innerHTML = '';
+                    photoContainers[i].appendChild(img);
+                } else {
+                    photoContainers[i].innerHTML = '<span>+</span>';
+                }
+            }
+        });
+        
+        // Update placeholder based on contact type selection
+        const typeContactSelect = document.getElementById('typeContact');
+        const contactValueInput = document.getElementById('contactValue');
+        
+        typeContactSelect.addEventListener('change', () => {
+            if (typeContactSelect.value === 'whatsapp') {
+                contactValueInput.placeholder = 'Entrez votre numéro WhatsApp';
+            } else {
+                contactValueInput.placeholder = 'Entrez votre adresse Gmail';
+            }
+        });
+        
+        // Handle form submission
+        const form = document.getElementById('fournisseurForm');
+        const messageDiv = document.getElementById('message');
+        const formContainer = document.getElementById('formContainer');
+        const countdownElement = document.getElementById('countdown');
+        const waitingMessageElement = document.getElementById('waitingMessage');
+        const thankYouContainer = document.getElementById('thankYouContainer');
+        
+        const waitingMessages = [
+            "Patientez, veuillez ne pas sortir de cette page...",
+            "Envoi des données en cours, merci de patienter...",
+            "Téléchargement des photos, ne fermez pas cette page..."
+        ];
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate form
+            if (selectedFiles.length < 4) {
+                showMessage("Veuillez télécharger au moins 4 photos d'articles.", "error");
+                return;
+            }
+            
+            // Validate contact information
+            const typeContact = document.getElementById('typeContact').value;
+            const contactValue = document.getElementById('contactValue').value;
+            
+            if (typeContact === 'gmail' && !contactValue.includes('@')) {
+                showMessage("Veuillez entrer une adresse Gmail valide.", "error");
+                return;
+            }
+            
+            try {
+                // Hide form and show countdown
+                messageDiv.style.display = "none";
+                formContainer.style.display = 'none';
+                countdownElement.style.display = 'block';
+                
+                // Start countdown from 5 to 0
+                let countdown = 5;
+                countdownElement.textContent = countdown;
+                
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        countdownElement.style.display = 'none';
+                        
+                        // Show waiting messages
+                        showWaitingMessages();
+                        
+                        // Process form data after countdown
+                        processFormData();
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                console.error("Erreur lors de l'inscription:", error);
+                formContainer.style.display = 'block';
+                countdownElement.style.display = 'none';
+                waitingMessageElement.style.display = 'none';
+                showMessage("Une erreur s'est produite. Veuillez réessayer.", "error");
+            }
+        });
+        
+        function showWaitingMessages() {
+            let messageIndex = 0;
+            waitingMessageElement.textContent = waitingMessages[messageIndex];
+            waitingMessageElement.style.display = 'block';
+            
+            // Change message every 2 seconds
+            const messageInterval = setInterval(() => {
+                messageIndex = (messageIndex + 1) % waitingMessages.length;
+                waitingMessageElement.textContent = waitingMessages[messageIndex];
+            }, 2000);
+            
+            // Store interval ID on the window to clear it later
+            window.messageIntervalId = messageInterval;
+        }
+        
+        async function processFormData() {
+            try {
+                const nom = document.getElementById('nom').value;
+                const motDePasse = document.getElementById('motDePasse').value;
+                const nomBoutique = document.getElementById('nomBoutique').value;
+                const description = document.getElementById('description').value;
+                const typeContact = document.getElementById('typeContact').value;
+                const contactValue = document.getElementById('contactValue').value;
+                
+                // Generate unique ID for this supplier
+                const fournisseurId = Date.now().toString();
+                
+                // Upload photos and get URLs
+                const photoURLs = [];
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const file = selectedFiles[i];
+                    const photoRef = storageRef(storage, `photos/${fournisseurId}/${file.name}`);
+                    await uploadBytes(photoRef, file);
+                    const photoURL = await getDownloadURL(photoRef);
+                    photoURLs.push(photoURL);
+                }
+                
+                // Save data to Firebase
+                const fournisseurData = {
+                    nom: nom,
+                    motDePasse: motDePasse, // Note: In a real app, you should use proper authentication and never store plain passwords
+                    nomBoutique: nomBoutique,
+                    description: description,
+                    typeContact: typeContact,
+                    contactValue: contactValue,
+                    photos: photoURLs,
+                    dateInscription: new Date().toISOString(),
+                    statut: "en_attente" // Adding a status field
+                };
+                
+                await set(ref(database, `fournisseurs/${fournisseurId}`), fournisseurData);
+                
+                // Clear message interval and hide waiting message
+                if (window.messageIntervalId) {
+                    clearInterval(window.messageIntervalId);
+                }
+                waitingMessageElement.style.display = 'none';
+                
+                // Show thank you message
+                thankYouContainer.style.display = 'block';
+                
+            } catch (error) {
+                console.error("Erreur lors de l'inscription:", error);
+                
+                // Clear message interval and hide waiting message
+                if (window.messageIntervalId) {
+                    clearInterval(window.messageIntervalId);
+                }
+                waitingMessageElement.style.display = 'none';
+                
+                formContainer.style.display = 'block';
+                showMessage("Une erreur s'est produite. Veuillez réessayer.", "error");
+            }
+        }
+        
+        function showMessage(message, type) {
+            messageDiv.textContent = message;
+            messageDiv.className = type;
+            messageDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>
