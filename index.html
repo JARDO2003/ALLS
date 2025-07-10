@@ -1,11 +1,36 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alls Store</title>
+    <meta charset="utf-8" />
+    <title>Alls - Boutique Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Styles généraux */
+        :root {
+            --primary: #1a1a2e;
+            --primary-light: #16213e;
+            --secondary: #0f3460;
+            --accent: #e94560;
+            --accent-light: #ff6b7d;
+            --gold: #f7b32b;
+            --gold-light: #ffc947;
+            --background: #0a0a14;
+            --surface: #1e1e3f;
+            --surface-light: #252547;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8cc;
+            --text-muted: #8888aa;
+            --border: #2a2a4a;
+            --shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+            --shadow-lg: 0 20px 60px rgba(233, 69, 96, 0.4);
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            --gradient-gold: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,381 +38,1155 @@
         }
 
         body {
-            background-image: url('image/logo.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: rgb(251, 22, 22);
-            text-align: center;
-            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        h1 {
-            background: rgba(78, 3, 3, 0.8);
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
+        /* Header */
         .header {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            background: linear-gradient(to right, #222, #444);
+            background: var(--gradient-primary);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-button {
+            position: relative;
+            background: var(--gradient-accent);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
             color: white;
-            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+
+        .cart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--gold);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            min-width: 1.5rem;
             text-align: center;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            margin: 0 auto 20px auto;
+            transform: scale(0);
+            transition: transform 0.3s ease;
         }
 
-        .container {
-            max-width: 800px;
-            margin: auto;
+        .cart-count.show {
+            transform: scale(1);
         }
 
-        /* Style des boîtes */
-        .box {
-            border: 3px solid black;
-            padding: 15px;
-            margin: 20px 0;
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-primary);
+            padding: 4rem 2rem;
+            text-align: center;
             position: relative;
             overflow: hidden;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
         }
 
-        /* Fond d'écran pour chaque cadre */
-        .store {
-            background-image: url('image/maillots.jpg');
-            background-color: rgba(0, 0, 0, 0.5);
-            background-blend-mode: overlay;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.5;
         }
 
-        .food {
-            background-image: url('image/logo.jpg');
-            background-color: rgba(0, 0, 0, 0.5);
-            background-blend-mode: overlay;
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Style du slider */
-        .slider-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-            margin: 10px 0;
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .slider-container::-webkit-scrollbar {
-            height: 6px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 3px;
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
         }
 
-        .slider-container::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 3px;
+        /* Products Section */
+        .products-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
         }
 
-        .slider {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.5s ease-in-out;
-            padding: 5px 0;
-        }
-
-        /* Style des cartes produits */
-        .card {
-            background: white;
-            border: 2px solid black;
-            border-radius: 12px;
-            width: 150px;
-            padding: 12px;
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
             text-align: center;
-            flex: 0 0 auto;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 3rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
-        .card img {
+        .product-card {
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .product-image {
             width: 100%;
-            height: 100px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .card h3 {
-            margin: 8px 0;
-            color: #333;
-        }
-
-        .card button {
-            background: linear-gradient(to right, #0056b3, #007bff);
-            color: white;
-            padding: 8px;
-            border: none;
-            width: 100%;
+            transition: transform 0.4s ease;
             cursor: pointer;
-            margin-top: 8px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: background 0.3s ease;
         }
 
-        .card button:hover {
-            background: linear-gradient(to right, #004494, #0062cc);
+        .product-card:hover .product-image {
+            transform: scale(1.05);
         }
 
-        /* Style de la boîte de saisie */
-        .input-box {
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .product-country {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
             display: flex;
-            justify-content: center;
-            margin: 25px 0;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        input {
-            padding: 10px 15px;
-            width: 70%;
-            border: 2px solid #333;
-            border-radius: 8px 0 0 8px;
-            font-size: 16px;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        .product-price {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
         }
 
-        .send-btn {
-            background: linear-gradient(to right, #0056b3, #007bff);
-            color: white;
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
             border: none;
-            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 0 8px 8px 0;
-            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: white;
+            flex: 1;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--surface-light);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gradient-gold);
+            color: var(--primary);
+            border-color: var(--gold);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border);
+            z-index: 1000;
+            transition: right 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gradient-primary);
+        }
+
+        .cart-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-cart:hover {
+            color: var(--accent);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
             transition: background 0.3s ease;
         }
 
-        .send-btn:hover {
-            background: linear-gradient(to right, #004494, #0062cc);
+        .cart-item:hover {
+            background: var(--surface-light);
         }
 
-        /* Styles spécifiques pour mobile */
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 15px;
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .cart-item-price {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .quantity {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: color 0.3s ease;
+        }
+
+        .remove-item:hover {
+            color: var(--accent);
+        }
+
+        .cart-footer {
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            background: var(--gradient-primary);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .total-price {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            animation: fadeInUp 0.4s;
+        }
+        .image-modal.show {
+            display: flex;
+        }
+        .image-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            background: var(--surface);
+        }
+        .image-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient-accent);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-modal-close:hover {
+            background: var(--accent);
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            
-            .header {
-                font-size: 24px;
-                padding: 12px;
-                width: 95%;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-            
-            .container {
-                max-width: 100%;
-                padding: 0;
+        }
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: scale(1);
             }
-            
-            .box {
-                padding: 12px;
-                margin: 15px 0;
-                border-width: 2px;
+            40%, 43% {
+                transform: scale(1.2);
             }
-            
-            h1, h2 {
-                font-size: 20px;
-                padding: 8px 12px;
+            70% {
+                transform: scale(1.1);
             }
-            
-            .slider-container {
-                padding: 8px;
+            90% {
+                transform: scale(1.05);
             }
-            
-            .card {
-                width: 130px;
-                padding: 8px;
+        }
+        .bounce {
+            animation: bounce 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
             }
-            
-            .card img {
-                height: 90px;
+
+            .logo {
+                font-size: 1.5rem;
             }
-            
-            input {
-                width: 65%;
-                padding: 10px;
+
+            .hero h1 {
+                font-size: 2.5rem;
             }
-            
-            .send-btn {
-                padding: 10px 15px;
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .products-section {
+                padding: 2rem 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+            .image-modal-content img {
+                max-height: 60vh;
             }
         }
 
-        /* Styles pour très petits écrans */
-        @media screen and (max-width: 400px) {
-            body {
-                padding: 10px;
-            }
-            
-            .card {
-                width: 110px;
-            }
-            
-            .card img {
-                height: 80px;
-            }
-            
-            .header {
-                font-size: 20px;
-                padding: 10px;
-            }
-            
-            .slider-container {
-                padding: 6px;
-            }
-            
-            input {
-                width: 60%;
-            }
+        /* Footer */
+        .footer {
+            background: var(--gradient-primary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-
-    <div class="header">Bienvenue sur Alls</div>
-    <button onclick="window.open('alls.html', '_blank')">A PROPOS DE ALLS😊</button></div>
-
-    <div class="container">
-
-        <div class="box store">
-            <h2>Check Store</h2>
-            <div class="slider-container" id="products">
-                <div class="slider">
-              <div class="card"><img src="image/chemise.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/chemise.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/montres.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/maillots.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/montres.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/chemise.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/montres.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/maillots.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/maillots ma.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/chemise.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/montres.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/maillots.jpg" alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('cheick.html', '_blank')">Visiter</button></div>
-                </div>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>ALLS STORE</span>
+            </div>
+            <div class="header-actions">
+                <button class="cart-button" id="cart-toggle">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Panier</span>
+                    <div class="cart-count" id="cart-count">0</div>
+                </button>
+                <!-- Nouveau bouton "À propos de nous" -->
+                <a href="apropos.html" class="btn btn-secondary" style="text-decoration:none;">
+                    <i class="fas fa-info-circle"></i>
+                    À propos de nous
+                </a>
             </div>
         </div>
+    </header>
 
-        <div class="input-box">
-            <input type="text" placeholder="Écrivez-nous...">
-            <button class="send-btn">Send</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p>Bienvenue sur ALLS STORE, découvrez notre sélection exclusive de produits de qualité supérieure, soigneusement choisis pour vous offrir le meilleur de chaque catégorie.</p>
         </div>
+    </section>
 
-        <div class="box food">
-            <h2>VOYAGER AVEC ALLS</h2>
-            <div class="slider-container" id="food-items">
-                <div class="slider">
-                    <div class="card"><img src="image/av1.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV2.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV3.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV4.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/av1.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV2.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV3.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV4.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/av1.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV2.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV3.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/AV4.jpg"  alt="Crêpe"><h3></h3>ALLs<button onclick="window.open('airline.html', '_blank')">Visiter</button></div>
-                </div>
+    <!-- Products Section -->
+    <section class="products-section">
+        <h2 class="section-title">Nos Produits Phares</h2>
+        <div class="products-grid" id="products-grid">
+            <!-- Les produits seront générés par JavaScript -->
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag"></i> Mon Panier</h2>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-bag"></i>
+                <h3>Votre panier est vide</h3>
+                <p>Ajoutez des produits pour commencer vos achats</p>
             </div>
         </div>
-            
-        <div class="box food">
-            <h1>Les délices de ADJA ET AWA</h1>
-            <div class="slider-container" id="food-items">
-                <div class="slider">
-                    <div class="card"><img src="image/crepe.jpg"  alt="Crêpe"><h3></h3>Crêpe<button onclick="window.open('crepe.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/yaourt.jpg"  alt="Crêpe"><h3>Yaourt</h3><button onclick="window.open('yaourt.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/crepe.jpg"  alt="Crêpe"><h3>Crêpe</h3><button onclick="window.open('crepe.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/yaourt.jpg"  alt="Crêpe"><h3>Yaourt</h3><button onclick="window.open('yaourt.html', '_blank')">Visiter</button></div>
-                </div>
+        <div class="cart-footer" id="cart-footer" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price" id="total-price">0 FCFA</span>
             </div>
-        </div>
-                
-        <div class="box food">
-            <h1>LA BOUTIQUE DE YASMINE DOLLARS</h1>
-            <div class="slider-container" id="food-items">
-                <div class="slider">
-                    <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/boub.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/bov.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/bip.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/boub.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/bov.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('yasmine.html', '_blank')">Visiter</button></div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="box food">
-            <h1>RESTO VIRGO</h1>
-            <div class="slider-container" id="food-items">
-                <div class="slider">
-                    <div class="card"><img src="image/aloko.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/ATIèke.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/poulet.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/poison1.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/frit.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                    <div class="card"><img src="image/soup de poisson.jpg" alt="Crêpe"><h3></h3><button onclick="window.open('resto.html', '_blank')">Visiter</button></div>
-                </div>
-            </div>
+            <button class="checkout-btn" id="checkout-btn">
+                <i class="fab fa-whatsapp"></i>
+                Commander via WhatsApp
+            </button>
         </div>
     </div>
 
-    <script>
-        function autoScroll(id, speed = 2) {
-            let container = document.getElementById(id);
-            let step = speed; // Vitesse du défilement
-            let scrollAmount = 0;
-    
-            function scrollContent() {
-                container.scrollLeft += step;
-                scrollAmount += step;
-    
-                // Revenir au début lorsque la fin est atteinte
-                if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
-                    container.scrollLeft = 0;
-                    scrollAmount = 0;
-                }
-    
-                requestAnimationFrame(scrollContent);
-            }
-    
-            scrollContent();
-        }
-    
-        window.onload = () => {
-            autoScroll('products', 1.5);  // Ajuste la vitesse si besoin
-            autoScroll('food-items', 1.5);
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="image-modal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" id="image-modal-close" aria-label="Fermer l'image"><i class="fas fa-times"></i></button>
+            <img src="" alt="Agrandissement produit" id="modal-img">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Alls Boutique - Excellence & Qualité Premium. Votre satisfaction, notre priorité.</p>
+    </footer>
+
+     <script>
+        // Données des produits
+        const products = [
+            {
+                id: 1,
+                name: "Gourde de sport",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES9.jpg"
+            },
+            {
+                id: 2,
+                name: "Gobelet TYESO",
+                price: 7000,
+                country: "Côte d'Ivoire",
+                image: "image/ES12.jpg"
+            },
+            {
+                id: 3,
+                name: "BOUTEILLE D'EAU",
+                price: 2500,
+                country: "Côte d'Ivoire",
+                image: "image/ES10.jpg"
+            },
+             {
+                id: 15,
+                name: "Bouteille d'eau",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES6.jpg"
+            },
+            {
+                id: 6,
+                name: "GOBELET A PAILLE HELLO KITTY",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES14.jpg"
+            },
+           
+            
+            {
+                id: 11.8,
+                name: "Bouteille isotherme en acier inoxydable",
+                price: 8000,
+                country: "Côte d'Ivoire",
+                image: "image/ES11.jpg"
+            },
+            {
+                id: 11.12,
+                name: "CARAFE D'EAU EN VERRE",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES5.jpg"
+            },
+            {
+                id: 11.9,
+                name: "THE DREAM SPRAY ESSENCE",
+                price: 900,
+                country: "Côte d'Ivoire",
+                image: "image/es1.jpg"
+            },
+            {
+                id: 11.10,
+                name: "INFIDELE ESSENCE",
+                price: 1000,
+                country: "Côte d'Ivoire",
+                image: "image/ES2.jpg"
+            },
+            {
+                id: 11.11,
+                name: "DIPLOMATIC DEODORANT",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES3.jpg"
+            },
+            
+            {
+                id: 11.13,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES22.jpg"
+            },
+            {
+                id: 11.14,
+                name: "NIKE",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES24.jpg"
+            },
+            {
+                id: 11.15,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES27.jpg"
+            },
+            {
+                id: 11.16,
+                name: "NIKE",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES24.jpg"
+            },
+            {
+                id: 11.17,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES21.jpg"
+            },
+            {
+                id: 8,
+                name: "HP Pavilion Laptop 15 TACTILE Core I7",
+                price: 350000,
+                country: "Côte d'Ivoire",
+                image: "image/HP2.jpg"
+            },
+            {
+                id: 9,
+                name: "HP Pavilion Laptop 15 tactile CORE I7",
+                price: 350000,
+                country: "Côte d'Ivoire",
+                image: "image/HP1.jpg"
+            },
+            {
+                id: 10,
+                name: "Hp Probook 440 G5",
+                price: 120000,
+                country: "Côte d'Ivoire",
+                image: "image/hp pro.jpg"
+            },
+            {
+                id: 11.1,
+                name: "DELL LATITUDE 7480 CORE I7",
+                price: 250000,
+                country: "Côte d'Ivoire",
+                image: "image/de1.jpg"
+            },
+            {
+                id: 11.2,
+                name: "DELL LATITUDE 7480 CORE I7",
+                price: 250000,
+                country: "Côte d'Ivoire",
+                image: "image/del2.jpg"
+            },
+            {
+                id: 11.3,
+                name: "DELL LATITUDE 7480 CORE I7",
+                price: 250000,
+                country: "Côte d'Ivoire",
+                image: "image/del3.jpg"
+            },
+            {
+                id: 11.4,
+                name: "OFF-WHITE",
+                price: 15000,
+                country: "Côte d'Ivoire",
+                image: "image/tanoire.jpg"
+            },
+            {
+                id: 11.5,
+                name: "NIKE",
+                price: 15000,
+                country: "Côte d'Ivoire",
+                image: "image/nike.jpg"
+            },
+            {
+                id: 11.6,
+                name: "NIKE AIR MAX",
+                price: 20000,
+                country: "Côte d'Ivoire",
+                image: "image/bi.jpg"
+            },
+            {
+                id: 11.7,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES26.jpg"
+            },
+            {
+                id: 11,
+                name: "Parfum Homme Prestige",
+                price: 2500,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 12,
+                name: "Parfum Femme Élégance",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/femmel.jpg"
+            },
+            {
+                id: 13,
+                name: "Parfum Unisexe Fresh",
+                price: 2000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 14,
+                name: "Parfum Romance Femme",
+                price: 22000,
+                country: "Côte d'Ivoire",
+                image: "image/romance.jpg"
+            },
+            {
+                id: 21,
+                name: "Parfum Homme Élégant",
+                price: 8000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 22,
+                name: "Parfum Femme Luxe",
+                price: 10000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 23,
+                name: "Parfum Unisexe Signature",
+                price: 15000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+           
+        ];
+
+        // État du panier
+        let cart = [];
+
+        // Éléments DOM
+        const elements = {
+            productsGrid: document.getElementById('products-grid'),
+            cartToggle: document.getElementById('cart-toggle'),
+            cartSidebar: document.getElementById('cart-sidebar'),
+            closeCaet: document.getElementById('close-cart'),
+            overlay: document.getElementById('overlay'),
+            cartItems: document.getElementById('cart-items'),
+            cartFooter: document.getElementById('cart-footer'),
+            cartCount: document.getElementById('cart-count'),
+            totalPrice: document.getElementById('total-price'),
+            checkoutBtn: document.getElementById('checkout-btn'),
+            imageModal: document.getElementById('image-modal'),
+            imageModalClose: document.getElementById('image-modal-close'),
+            modalImg: document.getElementById('modal-img')
         };
+
+        // Formatage des prix
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+        }
+
+        // Rendu des produits (sans le bouton Acheter)
+        function renderProducts() {
+            elements.productsGrid.innerHTML = products.map(product => `
+                <div class="product-card fade-in">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onclick="showImageModal('${product.image}', '${product.name.replace(/'/g, "\\'")}')">
+                    <div class="product-content">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-country">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${product.country}
+                        </div>
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Ajouter au panier
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showCartAnimation();
+        }
+
+        // Animation du panier
+        function showCartAnimation() {
+            elements.cartCount.classList.add('bounce');
+            setTimeout(() => {
+                elements.cartCount.classList.remove('bounce');
+            }, 600);
+        }
+
+        // Mettre à jour l'interface du panier
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Mettre à jour le compteur
+            elements.cartCount.textContent = totalItems;
+            elements.cartCount.classList.toggle('show', totalItems > 0);
+
+            // Mettre à jour le prix total
+            elements.totalPrice.textContent = formatPrice(totalPrice);
+
+            // Rendu des articles du panier
+            if (cart.length === 0) {
+                elements.cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>Votre panier est vide</h3>
+                        <p>Ajoutez des produits pour commencer vos achats</p>
+                    </div>
+                `;
+                elements.cartFooter.style.display = 'none';
+            } else {
+                elements.cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${formatPrice(item.price)}</div>
+                            <div class="cart-item-actions">
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="remove-item" onclick="removeFromCart(${item.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                elements.cartFooter.style.display = 'block';
+            }
+        }
+
+        // Mettre à jour la quantité
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        // Supprimer du panier
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        // Commander via WhatsApp (panier entier)
+        function checkoutCart() {
+            if (cart.length === 0) return;
+
+            // Regrouper les articles du panier dans un message
+            let message = 'Bonjour, voici ma commande :\n';
+            cart.forEach(item => {
+                message += `- ${item.name} (${item.quantity} x ${formatPrice(item.price)})\n`;
+            });
+            const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            message += `\nTotal à payer : ${formatPrice(totalPrice)}\nMerci de me contacter pour finaliser la commande.`;
+
+            // Numéro WhatsApp unique
+            const whatsappNumber = "2250506483003";
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Gestion du modal d'image
+        function showImageModal(imageUrl, altText) {
+            elements.modalImg.src = imageUrl;
+            elements.modalImg.alt = altText;
+            elements.imageModal.classList.add('show');
+            elements.overlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Désactive le scroll
+        }
+
+        function closeImageModal() {
+            elements.imageModal.classList.remove('show');
+            elements.overlay.classList.remove('show');
+            elements.modalImg.src = '';
+            elements.modalImg.alt = '';
+            document.body.style.overflow = ''; // Réactive le scroll
+        }
+
+        // Ouvrir le panier
+        function openCart() {
+            elements.cartSidebar.classList.add('open');
+            elements.overlay.classList.add('show');
+        }
+
+        // Fermer le panier
+        function closeCart() {
+            elements.cartSidebar.classList.remove('open');
+            elements.overlay.classList.remove('show');
+        }
+
+        // Évènements
+        elements.cartToggle.addEventListener('click', openCart);
+        elements.overlay.addEventListener('click', () => {
+            closeCart();
+            closeImageModal();
+        });
+        elements.closeCaet.addEventListener('click', closeCart);
+        elements.checkoutBtn.addEventListener('click', checkoutCart);
+        elements.imageModalClose.addEventListener('click', closeImageModal);
+
+        // Fermeture modal avec touche Echap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+                closeCart();
+            }
+        });
+
+        // Initialisation
+        renderProducts();
+        updateCartUI();
+
+        // Pour accès des fonctions depuis HTML dynamique
+        window.addToCart = addToCart;
+        window.updateQuantity = updateQuantity;
+        window.removeFromCart = removeFromCart;
+        window.showImageModal = showImageModal;
     </script>
-    
 </body>
 </html>
