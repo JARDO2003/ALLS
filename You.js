@@ -199,10 +199,10 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
 
         // Order via WhatsApp
         window.orderViaWhatsApp = function() {
-            const phoneNumber = '2250153707186';
+            const phoneNumber = '2250508463003';
             const total = cart.reduce((sum, item) => sum + item.cartPrice, 0);
             
-            let message = '🛒 *NOUVELLE COMMANDE CAMPUS MARKET*\n\n';
+            let message = '🛒 *NOUVELLE COMMANDE ALLS STORE*\n\n';
             message += '📦 *Produits :*\n\n';
             
             cart.forEach((item, i) => {
