@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hors ligne - ALLS STORE</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#F68B1E">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #F68B1E 0%, #E07913 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .offline-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #282828;
+            margin-bottom: 15px;
+        }
+        
+        .offline-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #F68B1E 0%, #E07913 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(246, 139, 30, 0.4);
+        }
+        
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+        
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .retry-btn.loading .spinner {
+            display: block;
+        }
+        
+        .retry-btn.loading .btn-text {
+            display: none;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .cached-info {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+        
+        .cached-info p {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #F68B1E;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="logo">🛍️ ALLS STORE</div>
+        <div class="offline-icon">📡</div>
+        <h1 class="offline-title">Hors ligne</h1>
+        <p class="offline-message">
+            Il semble que vous n'êtes pas connecté à Internet. 
+            Vérifiez votre connexion et réessayez.
+        </p>
+        <button class="retry-btn" onclick="retryConnection()">
+            <div class="spinner"></div>
+            <span class="btn-text">🔄 Réessayer</span>
+        </button>
+        <div class="cached-info">
+            <p>💡 Certaines pages peuvent être disponibles hors ligne</p>
+        </div>
+    </div>
+    
+    <script>
+        function retryConnection() {
+            const btn = document.querySelector('.retry-btn');
+            btn.classList.add('loading');
+            
+            // Vérifier la connexion
+            if (navigator.onLine) {
+                window.location.href = '/index.html';
+            } else {
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+                    // Réessayer de charger la page
+                    window.location.reload();
+                }, 1500);
+            }
+        }
+        
+        // Écouter les changements de connexion
+        window.addEventListener('online', () => {
+            window.location.href = '/index.html';
+        });
+    </script>
+</body>
+</html>
