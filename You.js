@@ -82,13 +82,13 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
             const discount = product.onSale && product.discountPrice ? 
                 Math.round(((product.price - product.discountPrice) / product.price) * 100) : 0;
             const finalPrice = product.onSale && product.discountPrice ? product.discountPrice : product.price;
-            const stockPercent = Math.floor(Math.random() * 60) + 20; // Random stock level
+            const stockPercent = Math.floor(Math.random() * 60) + 20;
 
             return `
                 <div class="product-card">
                     <div class="product-image-container">
                         ${discount > 0 ? `<div class="discount-badge">-${discount}%</div>` : ''}
-                        <img src="${product.image || 'https://via.placeholder.com/200'}" alt="${product.name}" class="product-image">
+                        <img src="${product.image || 'https://via.placeholder.com/200'}" alt="${product.name}" class="product-image" loading="lazy">
                     </div>
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
@@ -172,7 +172,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
 
             cartBody.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image" loading="lazy">
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-price">${formatPrice(item.cartPrice)} FCFA</div>
@@ -291,12 +291,16 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
         loadProducts();
 
         // ========================================
-        // PWA INSTALLATION
+        // PWA INSTALLATION - VERSION AMÉLIORÉE
         // ========================================
         let deferredPrompt;
         const pwaPrompt = document.getElementById('pwaPrompt');
         const installBtn = document.getElementById('installBtn');
         const dismissBtn = document.getElementById('dismissBtn');
+        const floatingInstallBtn = document.getElementById('floatingInstallBtn');
+        const updateNotification = document.getElementById('updateNotification');
+        const updateBtn = document.getElementById('updateBtn');
+        const dismissUpdateBtn = document.getElementById('dismissUpdateBtn');
 
         // Enregistrer le service worker
         if ('serviceWorker' in navigator) {
@@ -304,15 +308,47 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
                 navigator.serviceWorker.register('/service-worker.js')
                     .then((registration) => {
                         console.log('✅ Service Worker enregistré:', registration.scope);
+                        
+                        // Vérifier les mises à jour
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Nouvelle version disponible
+                                    updateNotification.classList.add('show');
+                                }
+                            });
+                        });
                     })
                     .catch((error) => {
                         console.log('❌ Erreur Service Worker:', error);
                     });
+                
+                // Écouter les messages du SW
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    if (event.data && event.data.type === 'UPDATE_AVAILABLE') {
+                        updateNotification.classList.add('show');
+                    }
+                });
             });
         }
 
+        // Bouton de mise à jour
+        updateBtn.addEventListener('click', () => {
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+                window.location.reload();
+            }
+        });
+
+        // Dismiss update
+        dismissUpdateBtn.addEventListener('click', () => {
+            updateNotification.classList.remove('show');
+        });
+
         // Capturer l'événement beforeinstallprompt
         window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('📱 beforeinstallprompt déclenché');
             // Empêcher le prompt par défaut
             e.preventDefault();
             // Stocker l'événement pour l'utiliser plus tard
@@ -324,17 +360,31 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
             const daysSinceDecline = declinedDate ? 
                 (Date.now() - parseInt(declinedDate)) / (1000 * 60 * 60 * 24) : 999;
             
-            // Afficher le prompt après 5 secondes si non refusé récemment (< 7 jours)
-            if (!hasDeclined || daysSinceDecline > 7) {
-                setTimeout(() => {
-                    pwaPrompt.classList.add('show');
-                }, 5000);
+            // Vérifier si l'app n'est pas déjà installée
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                                 window.navigator.standalone === true;
+            
+            if (!isStandalone) {
+                // Afficher le bouton flottant immédiatement
+                floatingInstallBtn.classList.add('show');
+                
+                // Afficher le prompt bottom sheet après 3 secondes si non refusé récemment (< 3 jours)
+                if (!hasDeclined || daysSinceDecline > 3) {
+                    setTimeout(() => {
+                        pwaPrompt.classList.add('show');
+                    }, 3000);
+                }
             }
         });
 
-        // Bouton installer
-        installBtn.addEventListener('click', async () => {
+        // Fonction pour installer l'app
+        async function installApp() {
             if (!deferredPrompt) {
+                console.log('❌ deferredPrompt non disponible');
+                // Afficher un message si l'installation n'est pas supportée
+                if (!('BeforeInstallPromptEvent' in window)) {
+                    showToast('📱 Ajoutez ALLS STORE à votre écran d\'accueil via le menu de votre navigateur');
+                }
                 return;
             }
 
@@ -344,21 +394,32 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
             // Attendre la réponse de l'utilisateur
             const { outcome } = await deferredPrompt.userChoice;
             
-            console.log(`Installation: ${outcome}`);
+            console.log(`📱 Installation: ${outcome}`);
 
             // Réinitialiser deferredPrompt
             deferredPrompt = null;
 
-            // Cacher le prompt
+            // Cacher les prompts
             pwaPrompt.classList.remove('show');
+            floatingInstallBtn.classList.remove('show');
 
             // Si accepté, retirer le flag de refus
             if (outcome === 'accepted') {
                 localStorage.removeItem('pwaDeclined');
                 localStorage.removeItem('pwaDeclinedDate');
                 showToast('✅ Application installée avec succès !');
+            } else {
+                // L'utilisateur a refusé
+                localStorage.setItem('pwaDeclined', 'true');
+                localStorage.setItem('pwaDeclinedDate', Date.now().toString());
             }
-        });
+        }
+
+        // Bouton installer (bottom sheet)
+        installBtn.addEventListener('click', installApp);
+
+        // Bouton flottant installer
+        floatingInstallBtn.addEventListener('click', installApp);
 
         // Bouton "Plus tard"
         dismissBtn.addEventListener('click', () => {
@@ -371,13 +432,46 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
         window.addEventListener('appinstalled', () => {
             console.log('✅ PWA installée avec succès');
             pwaPrompt.classList.remove('show');
+            floatingInstallBtn.classList.remove('show');
             localStorage.removeItem('pwaDeclined');
             localStorage.removeItem('pwaDeclinedDate');
+            showToast('🎉 ALLS STORE est maintenant installée !');
         });
 
         // Détection du mode standalone (app installée)
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('🎉 Application en mode standalone');
-            // Masquer le prompt si déjà en mode app
-            pwaPrompt.style.display = 'none';
+        function checkStandalone() {
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                                 window.navigator.standalone === true;
+            
+            if (isStandalone) {
+                console.log('🎉 Application en mode standalone');
+                // Masquer les prompts si déjà en mode app
+                pwaPrompt.style.display = 'none';
+                floatingInstallBtn.style.display = 'none';
+                
+                // Ajouter une classe au body pour les styles spécifiques
+                document.body.classList.add('pwa-standalone');
+            }
         }
+
+        // Vérifier au chargement
+        checkStandalone();
+
+        // Écouter les changements de display mode
+        if (window.matchMedia) {
+            window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
+                if (e.matches) {
+                    pwaPrompt.style.display = 'none';
+                    floatingInstallBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Gestion du mode hors ligne
+        window.addEventListener('online', () => {
+            showToast('🌐 Connexion rétablie');
+        });
+
+        window.addEventListener('offline', () => {
+            showToast('📡 Mode hors ligne - Certaines fonctionnalités peuvent être limitées');
+        });
