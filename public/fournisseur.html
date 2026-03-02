@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamp-login</title>
+    <link rel="stylesheet" href="my.css">
+    </head>
+<body>
+    <div class="header">ESPACE RESERVER AUX FOURNISSEURS....AREA RESERVED FOR SUPPLIERS</div>
+
+    <div class="lamp-container" id="lampContainer">
+        <div class="light-glow"></div>
+        <div class="lamp">
+            <div class="lamp-shade">
+                <div class="pull-cord">
+                    <div class="pull-handle"></div>
+                </div>
+            </div>
+            <div class="lamp-pole"></div>
+            <div class="lamp-base"></div>
+        </div>
+    </div>
+
+    <div class="login-form">
+        <h2>Welcome</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="••••••••••••" 
+                    autocomplete="off"
+                >
+            </div>
+            <button type="submit" class="sign-in-btn">Sign In</button>
+            <div class="error-message" id="errorMessage">Mot de passe incorrect</div>
+            <div class="success-message" id="successMessage">Connexion réussie!</div>
+        </form>
+    </div>
+
+    <script type="module" src="alix.js"></script>
+
